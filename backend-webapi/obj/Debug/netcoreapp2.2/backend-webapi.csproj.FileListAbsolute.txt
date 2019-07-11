@@ -1,0 +1,14 @@
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.csprojAssemblyReference.cache
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.csproj.CoreCompileInputs.cache
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cache
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cs
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.AssemblyInfoInputs.cache
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.AssemblyInfo.cs
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.deps.json
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.runtimeconfig.json
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.runtimeconfig.dev.json
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.dll
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.RazorTargetAssemblyInfo.cache
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.pdb
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.dll
+C:\Users\WATHSALA\Desktop\backend-webapi\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.pdb

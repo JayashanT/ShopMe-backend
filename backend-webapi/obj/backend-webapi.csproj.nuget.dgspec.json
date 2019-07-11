@@ -1,0 +1,99 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\WATHSALA\\Desktop\\backend-webapi\\backend-webapi\\backend-webapi.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\WATHSALA\\Desktop\\backend-webapi\\backend-webapi\\backend-webapi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\WATHSALA\\Desktop\\backend-webapi\\backend-webapi\\backend-webapi.csproj",
+        "projectName": "backend-webapi",
+        "projectPath": "C:\\Users\\WATHSALA\\Desktop\\backend-webapi\\backend-webapi\\backend-webapi.csproj",
+        "packagesPath": "C:\\Users\\WATHSALA\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\WATHSALA\\Desktop\\backend-webapi\\backend-webapi\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\WATHSALA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[8.1.0, )"
+            },
+            "GeoCoordinate": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
+            "GeoCoordinate.NetCore": {
+              "target": "Package",
+              "version": "[1.0.0.1, )"
+            },
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
