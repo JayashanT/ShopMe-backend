@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using backend_webapi;
 using GeoCoordinatePortable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using webapi.Dtos;
 using webapi.Entities;
@@ -16,7 +18,8 @@ namespace webapi.Services
         private ICommonRepository<Location> _locationRepository;
         private ILocationService _locationService;
 
-        public DelivererService(ICommonRepository<Deliverer> delivererRepository, ICommonRepository<Location> locationRepository, ILocationService locationService)
+        public DelivererService(ICommonRepository<Deliverer> delivererRepository, ICommonRepository<Location> locationRepository, 
+                                                    ILocationService locationService)
         {
             _delivererRepository = delivererRepository;
             _locationRepository = locationRepository;
@@ -24,18 +27,20 @@ namespace webapi.Services
         }
 
         //GetDelivererNearByShop
-        public IEnumerable<DelivererDto> GetDelivererNearByShop(double latitude, double longitude)
+        public IEnumerable<DeliveryDetails> GetDelivererNearByShop(double latitude, double longitude)
         {
             var source = new GeoCoordinate() { Latitude = latitude, Longitude = longitude }; //shop location
 
             var query = (
                         from deliverer in _delivererRepository.GetAll()
                         from location in _locationRepository.GetAll()
-                        where deliverer.Id == location.DelivererId && deliverer.DeliveryStatus == "online" && new GeoCoordinate() { Latitude = location.Latitude, Longitude = location.Longitude }.GetDistanceTo(source)<10000
+                        where deliverer.Id == location.DelivererId && deliverer.DeliveryStatus == "online" && new GeoCoordinate() { Latitude = location.Latitude, Longitude = location.Longitude }.GetDistanceTo(source)<100000
                         orderby new GeoCoordinate() { Latitude = location.Latitude, Longitude = location.Longitude }.GetDistanceTo(source) ascending
-                        select new DelivererDto
+                        select new DeliveryDetails
                         {
-                            Id=deliverer.Id
+                            delivererId=deliverer.Id,
+                            shopLatitude=latitude,
+                            shopLongitude=longitude
                         }
                         ).ToList();
 

@@ -9,6 +9,7 @@ namespace webapi.Entities
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
+        public string Image { get; set; }
         public virtual List<Product> Products { get; set; }
     }
 }

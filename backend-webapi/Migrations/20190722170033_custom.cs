@@ -9,6 +9,35 @@ namespace backend_webapi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CategoryName = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Login",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Role = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Login", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Admins",
                 columns: table => new
                 {
@@ -16,30 +45,21 @@ namespace backend_webapi.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
                     ProfileImage = table.Column<string>(nullable: true),
                     MobileNumber = table.Column<string>(nullable: true),
                     Token = table.Column<string>(nullable: true),
+                    LoginId = table.Column<int>(nullable: false),
                     Qualifications = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Admins", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CategoryName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admins_Login_LoginId",
+                        column: x => x.LoginId,
+                        principalTable: "Login",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,16 +70,20 @@ namespace backend_webapi.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
                     ProfileImage = table.Column<string>(nullable: true),
                     MobileNumber = table.Column<string>(nullable: true),
-                    Token = table.Column<string>(nullable: true)
+                    Token = table.Column<string>(nullable: true),
+                    LoginId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_Login_LoginId",
+                        column: x => x.LoginId,
+                        principalTable: "Login",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,12 +94,10 @@ namespace backend_webapi.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
                     ProfileImage = table.Column<string>(nullable: true),
                     MobileNumber = table.Column<string>(nullable: true),
                     Token = table.Column<string>(nullable: true),
+                    LoginId = table.Column<int>(nullable: false),
                     VehicleType = table.Column<string>(nullable: true),
                     VehicleNo = table.Column<string>(nullable: true),
                     DeliveryStatus = table.Column<string>(nullable: true),
@@ -84,6 +106,12 @@ namespace backend_webapi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Deliverers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Deliverers_Login_LoginId",
+                        column: x => x.LoginId,
+                        principalTable: "Login",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,14 +122,12 @@ namespace backend_webapi.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
                     ProfileImage = table.Column<string>(nullable: true),
                     MobileNumber = table.Column<string>(nullable: true),
                     Token = table.Column<string>(nullable: true),
-                    shopName = table.Column<string>(nullable: true),
-                    PaypalAcc = table.Column<string>(nullable: true),
+                    LoginId = table.Column<int>(nullable: false),
+                    ShopName = table.Column<string>(nullable: true),
+                    AccountNo = table.Column<string>(nullable: true),
                     ShopAddress = table.Column<string>(nullable: true),
                     ShopLocationLatitude = table.Column<double>(nullable: false),
                     ShopLocationLongitude = table.Column<double>(nullable: false)
@@ -109,6 +135,12 @@ namespace backend_webapi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sellers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sellers_Login_LoginId",
+                        column: x => x.LoginId,
+                        principalTable: "Login",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,7 +171,8 @@ namespace backend_webapi.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Latitude = table.Column<double>(nullable: false),
                     Longitude = table.Column<double>(nullable: false),
-                    DelivererId = table.Column<int>(nullable: false)
+                    DelivererId = table.Column<int>(nullable: false),
+                    connectionId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -246,14 +279,38 @@ namespace backend_webapi.Migrations
                         column: x => x.OrderItemId,
                         principalTable: "OrderItems",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderItemProducts_OrderItems_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "OrderItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OrderItemProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Admins_LoginId",
+                table: "Admins",
+                column: "LoginId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_LoginId",
+                table: "Customers",
+                column: "LoginId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Deliverers_LoginId",
+                table: "Deliverers",
+                column: "LoginId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Locations_DelivererId",
@@ -295,6 +352,12 @@ namespace backend_webapi.Migrations
                 name: "IX_Products_SellerId",
                 table: "Products",
                 column: "SellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sellers_LoginId",
+                table: "Sellers",
+                column: "LoginId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -331,6 +394,9 @@ namespace backend_webapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Login");
         }
     }
 }

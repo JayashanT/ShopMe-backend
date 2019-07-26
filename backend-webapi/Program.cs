@@ -14,14 +14,13 @@ namespace backend_webapi
     {
         public static void Main(string[] args)
         {
-
             CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
-                .UseUrls("http://192.168.43.15:5001")
+                .UseUrls("https://localhost:5001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>();

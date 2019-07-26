@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using backend_webapi.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -26,38 +27,34 @@ namespace webapi.Services
         private readonly ICommonRepository<Seller> _sellerRepository;
         private readonly ICommonRepository<Deliverer> _delivererRepository;
         private readonly ICommonRepository<Admin> _adminRepository;
+        private readonly ICommonRepository<Login> _loginRepository;
         private string key = "1234567890-abcde";
 
         public UserService(IOptions<AppSettings> jwtSettings, ICommonRepository<Customer> customerRepository,
             ICommonRepository<Seller> sellerRepository,ICommonRepository<Deliverer> delivererRepository
-            ,ICommonRepository<Admin> adminRepository)
+            ,ICommonRepository<Admin> adminRepository, ICommonRepository<Login> loginRepository)
         {
             _jwtSettings = jwtSettings.Value;
             _customerRepository = customerRepository;
             _sellerRepository = sellerRepository;
             _delivererRepository = delivererRepository;
             _adminRepository = adminRepository;
+            _loginRepository = loginRepository;
         }
         
-        public Object SignIn(string email, string password, string role)
+        public Object SignIn(string email, string password)
         {
-
             //retrive data from db
             var user = (dynamic) null;
-            if (role == "customer")
-            {
-                user = _customerRepository.Get(x => x.Email == email && Decrypt(x.Password, key) == password).FirstOrDefault();
-            }
-            else if (role == "seller")
-            {
-                user = _sellerRepository.Get(x => x.Email == email && Decrypt(x.Password, key) == password).FirstOrDefault();
-            }else if (role == "Deliverer")
-            {
-                user = _delivererRepository.Get(x => x.Email == email && Decrypt(x.Password, key) == password).FirstOrDefault();
-            }else
-            {
-                user = _adminRepository.Get(x => x.Email == email && Decrypt(x.Password, key) == password).FirstOrDefault();
-            }
+            var login = _loginRepository.Get(x => x.Email == email && Decrypt(x.Password, key) == password).FirstOrDefault();//Decrypt(x.Password, key)
+            if (login == null)
+                return null;
+            else if (login.Role == "Customer")
+                user = _customerRepository.Get(x => x.LoginId==login.Id).FirstOrDefault();
+            else if (login.Role == "Deliverer")
+                user = _delivererRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
+            else if (login.Role == "Seller")
+                user = _sellerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
 
             // return null if user not found
             if (user == null)
@@ -65,9 +62,7 @@ namespace webapi.Services
 
             // authentication successful so generate jwt token
             user.Token = Authentication(user.Id, user.Token);
-
-            // remove password before returning
-            user.Password = null;
+            
 
             return user;
         }
@@ -160,16 +155,29 @@ namespace webapi.Services
         {
             try
             {
-                CustomerDto customerDto = new CustomerDto();
+                var customerDto = new CustomerDto()
+                {
+                    FirstName = customerVM.FirstName,
+                    LastName = customerVM.LastName,
+                    MobileNumber = customerVM.MobileNumber,
+                    ProfileImage = customerVM.ProfileImage,
+                };
+
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    Customer toAdd = Mapper.Map<Customer>(customerVM);
-                    toAdd.Password = Encrypt(toAdd.Password, key);
+                    Login login = Mapper.Map<Login>(customerVM.LoginVM);
+                    login.Password = Encrypt(login.Password, key);
+                    _loginRepository.Add(login);
+                    _loginRepository.Save();
+
+                    Login loginId = _loginRepository.Get(x => x.Email == login.Email).FirstOrDefault();
+                    customerDto.LoginId = loginId.Id;
+
+                    Customer toAdd = Mapper.Map<Customer>(customerDto);
                     _customerRepository.Add(toAdd);
-                    bool result = _customerRepository.Save();
-                    customerDto = Mapper.Map<CustomerDto>(toAdd);
+                    _customerRepository.Save();
+
                     customerDto.Token = Authentication(customerDto.Id, customerDto.Token);
-                    customerDto.Password = Decrypt(customerDto.Password, key);
                     scope.Complete();
                 }
                 return customerDto;
@@ -185,16 +193,33 @@ namespace webapi.Services
         {
             try
             {
-                SellerDto sellerDto = new SellerDto(); 
+                SellerDto sellerDto = new SellerDto()
+                {
+                    FirstName = sellerVM.FirstName,
+                    LastName = sellerVM.LastName,
+                    MobileNumber = sellerVM.MobileNumber,
+                    ProfileImage = sellerVM.ProfileImage,
+                    AccountNo = sellerVM.AccountNo,
+                    ShopAddress = sellerVM.ShopAddress,
+                    ShopName = sellerVM.ShopName,
+                    ShopLocationLatitude = sellerVM.ShopLocationLatitude,
+                    ShopLocationLongitude = sellerVM.ShopLocationLongitude
+                };
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    Seller toAdd = Mapper.Map<Seller>(sellerVM);
-                    toAdd.Password = Encrypt(toAdd.Password, key);
+                    Login login = Mapper.Map<Login>(sellerVM.LoginVM);
+                    login.Password = Encrypt(login.Password, key);
+                    _loginRepository.Add(login);
+                    _loginRepository.Save();
+
+                    Login loginId = _loginRepository.Get(x => x.Email == login.Email).FirstOrDefault();
+                    sellerDto.LoginId = loginId.Id;
+
+                    Seller toAdd = Mapper.Map<Seller>(sellerDto);
                     _sellerRepository.Add(toAdd);
-                    bool result = _sellerRepository.Save();
-                    sellerDto = Mapper.Map<SellerDto>(toAdd);
+                    _sellerRepository.Save();
+                    
                     sellerDto.Token = Authentication(sellerDto.Id, sellerDto.Token);
-                    sellerDto.Password = null;
                     scope.Complete();
                 }
                 return sellerDto;
@@ -210,16 +235,32 @@ namespace webapi.Services
         {
             try
             {
-                DelivererDto delivererDto = new DelivererDto();
+                var delivererDto = new DelivererDto()
+                {
+                    FirstName = delivererVM.FirstName,
+                    LastName = delivererVM.LastName,
+                    MobileNumber = delivererVM.MobileNumber,
+                    ProfileImage = delivererVM.ProfileImage,
+                    NIC = delivererVM.NIC,
+                    VehicleNo=delivererVM.VehicleNo,
+                    VehicleType=delivererVM.VehicleType,
+                };
+
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    Deliverer toAdd = Mapper.Map<Deliverer>(delivererVM);
-                    toAdd.Password = Encrypt(toAdd.Password, key);
+                    Login login = Mapper.Map<Login>(delivererVM.LoginVM);
+                    login.Password = Encrypt(login.Password, key);
+                    _loginRepository.Add(login);
+                    _loginRepository.Save();
+
+                    Login loginId = _loginRepository.Get( x=> x.Email==login.Email).FirstOrDefault();
+                    delivererDto.LoginId = loginId.Id;
+
+                    Deliverer toAdd = Mapper.Map<Deliverer>(delivererDto);
                     _delivererRepository.Add(toAdd);
-                    bool result = _delivererRepository.Save();
-                    delivererDto = Mapper.Map<DelivererDto>(toAdd);
+                    _delivererRepository.Save();
+
                     delivererDto.Token = Authentication(delivererDto.Id, delivererDto.Token);
-                    delivererDto.Password = null;
                     scope.Complete();
                 }
                 return delivererDto;

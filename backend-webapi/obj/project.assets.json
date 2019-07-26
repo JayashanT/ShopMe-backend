@@ -30,6 +30,9 @@
           "lib/netstandard1.6/GeoCoordinate.NetCore.dll": {}
         }
       },
+      "Microsoft.AspNet.SignalR/2.4.1": {
+        "type": "package"
+      },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "type": "package",
         "dependencies": {
@@ -4552,6 +4555,17 @@
         "geocoordinate.netcore.nuspec",
         "lib/netstandard1.6/GeoCoordinate.NetCore.deps.json",
         "lib/netstandard1.6/GeoCoordinate.NetCore.dll"
+      ]
+    },
+    "Microsoft.AspNet.SignalR/2.4.1": {
+      "sha512": "KM+JSAg1w4YGoi4xxjw5KxrhbgRoGY6tTICMnxHpSaC0L2i3nBlD6mEm6OROvXFQi3hiyn48HfDfkJJrC0nrQA==",
+      "type": "package",
+      "path": "microsoft.aspnet.signalr/2.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "microsoft.aspnet.signalr.2.4.1.nupkg.sha512",
+        "microsoft.aspnet.signalr.nuspec"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -12242,6 +12256,7 @@
       "AutoMapper >= 8.1.0",
       "GeoCoordinate >= 2.0.1",
       "GeoCoordinate.NetCore >= 1.0.0.1",
+      "Microsoft.AspNet.SignalR >= 2.4.1",
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Cors >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
@@ -12303,6 +12318,10 @@
           "GeoCoordinate.NetCore": {
             "target": "Package",
             "version": "[1.0.0.1, )"
+          },
+          "Microsoft.AspNet.SignalR": {
+            "target": "Package",
+            "version": "[2.4.1, )"
           },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",

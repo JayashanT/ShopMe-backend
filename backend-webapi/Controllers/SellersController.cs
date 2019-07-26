@@ -48,7 +48,7 @@ namespace webapi.Controllers
 
         [HttpPost]
         [Route("addSeller")]
-        public IActionResult Add([FromBody] SellerVM  seller)
+        public IActionResult Add([FromBody] SellerDto  seller)
         {
             Seller toAdd = Mapper.Map<Seller>(seller);
 

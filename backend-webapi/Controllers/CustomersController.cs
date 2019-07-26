@@ -50,7 +50,7 @@ namespace webapi.Controllers
         //post  api/addCustomers
         [HttpPost]
         [Route("addCustomer")]
-        public IActionResult Add([FromBody] CustomerVM customer)
+        public IActionResult Add([FromBody] CustomerDto customer)
         {
             Customer toAdd = Mapper.Map<Customer>(customer);
 

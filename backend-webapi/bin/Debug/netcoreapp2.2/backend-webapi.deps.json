@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "964ae7064cd623e0c8f8d2f056f13b089e643547"
+    "signature": "3ece0d38d305a66d6a3d1fc308908db4979cf305"
   },
   "compilationOptions": {
     "defines": [
@@ -27,6 +27,7 @@
           "AutoMapper": "8.1.0",
           "GeoCoordinate": "2.0.1",
           "GeoCoordinate.NetCore": "1.0.0.1",
+          "Microsoft.AspNet.SignalR": "2.4.1",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Cors": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
@@ -73,6 +74,7 @@
           "lib/netstandard1.6/GeoCoordinate.NetCore.dll": {}
         }
       },
+      "Microsoft.AspNet.SignalR/2.4.1": {},
       "Microsoft.EntityFrameworkCore/2.2.4": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Abstractions": "2.2.4",
@@ -3358,6 +3360,13 @@
       "sha512": "sha512-8C5ZcAJXIEq3SL3spW7BtmGgYWvQMB6AuApkSFbCXPaOZOwEW2AwhlWn0IHXJ0iI9qjvpf/9Urcd7obgKoMpKg==",
       "path": "geocoordinate.netcore/1.0.0.1",
       "hashPath": "geocoordinate.netcore.1.0.0.1.nupkg.sha512"
+    },
+    "Microsoft.AspNet.SignalR/2.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KM+JSAg1w4YGoi4xxjw5KxrhbgRoGY6tTICMnxHpSaC0L2i3nBlD6mEm6OROvXFQi3hiyn48HfDfkJJrC0nrQA==",
+      "path": "microsoft.aspnet.signalr/2.4.1",
+      "hashPath": "microsoft.aspnet.signalr.2.4.1.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/2.2.4": {
       "type": "package",

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using webapi.Entities;
 using webapi.ViewModels;
 using webapi.Services;
+using webapi.Dtos;
 
 namespace webapi.Controllers
 {
@@ -26,9 +27,9 @@ namespace webapi.Controllers
 
         [AllowAnonymous]
         [HttpPost("signin")]
-        public IActionResult SignIn([FromBody]SignIn signIn)
+        public IActionResult SignIn([FromBody]LoginVM login)
         {
-            var user = _userService.SignIn(signIn.Email, signIn.Password, signIn.Role);
+            var user = _userService.SignIn(login.Email, login.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Email or password is incorrect" });

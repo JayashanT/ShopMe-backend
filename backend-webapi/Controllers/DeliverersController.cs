@@ -10,7 +10,8 @@ using webapi.Entities;
 using webapi.ViewModels;
 using webapi.Repositories;
 using webapi.Services;
-using webapi.Logic;
+using System.Threading;
+using backend_webapi;
 
 namespace webapi.Controllers
 {
@@ -70,40 +71,36 @@ namespace webapi.Controllers
         }
         
         [HttpGet]
-        [Route("getShopsNearBy")]
+        [Route("getDelivererNearByShop")]
         public IActionResult GetDelivererNearByShop()
         {
             double lat = 6.795134521923838;//5.953118046485079;
             double lng = 79.9003317207098;// 80.55386066436768;
-            var deliverer = _delivererService.GetDelivererNearByShop(lat, lng);
+            var deliverers=_delivererService.GetDelivererNearByShop(lat, lng);
 
-            return Ok(deliverer);
+            return Ok(deliverers);
         }
 
-        [HttpPost]
+        [HttpPost]  
         [Route("waiting")]
         public IActionResult WaitingForDelivery(LocationDto deliveryLocation) //ask by deliverer 
         {
-            _delivererService.UpdateDeliveryStatus(deliveryLocation.Id, "online");
+            _delivererService.UpdateDeliveryStatus(deliveryLocation.DelivererId, "online");
             _locationService.UpdateDeliveryLocation(deliveryLocation);
             return Ok();
         }
         
         [HttpGet]
         [Route("x")]
-        public IActionResult x() //ask by seller
+        public IActionResult x() 
         {
-            double[,] arr = new double[1,2];
-            arr[0, 0] = 6.795134521923838;
-            arr[0, 1] = 79.9003317207098;
-            return Ok(arr);
+            return Ok();
         }
 
         [HttpGet]
         [Route("response")]
         public bool DelivererResponse(string response)
         {
-           // response = response;
             return (response == "confirm") ? true : false;
         }
     }

@@ -6,7 +6,7 @@ namespace webapi.Services
     public interface IUserService
     {
         string Authentication(int id, string token);
-        object SignIn(string email, string password, string role);
+        object SignIn(string email, string password);
         CustomerDto SignUp(CustomerVM customerVM);
         DelivererDto SignUp(DelivererVM delivererVM);
         SellerDto SignUp(SellerVM sellerVM);

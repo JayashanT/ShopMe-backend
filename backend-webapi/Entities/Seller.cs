@@ -9,8 +9,8 @@ namespace webapi.Entities
     [Table("Sellers")]
     public class Seller : User
     {
-        public string shopName { get; set; }
-        public string PaypalAcc { get; set; }
+        public string ShopName { get; set; }
+        public string AccountNo { get; set; }
         public string ShopAddress { get; set; }
         public double ShopLocationLatitude { get; set; }
         public double ShopLocationLongitude { get; set; }

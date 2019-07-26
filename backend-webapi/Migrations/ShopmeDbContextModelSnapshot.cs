@@ -19,7 +19,7 @@ namespace backend_webapi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("webapi.Entities.Admin", b =>
+            modelBuilder.Entity("backend_webapi.Entities.Login", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,23 +27,39 @@ namespace backend_webapi.Migrations
 
                     b.Property<string>("Email");
 
+                    b.Property<string>("Password");
+
+                    b.Property<string>("Role");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Login");
+                });
+
+            modelBuilder.Entity("webapi.Entities.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("MobileNumber");
+                    b.Property<int>("LoginId");
 
-                    b.Property<string>("Password");
+                    b.Property<string>("MobileNumber");
 
                     b.Property<string>("ProfileImage");
 
                     b.Property<string>("Qualifications");
 
-                    b.Property<string>("Status");
-
                     b.Property<string>("Token");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoginId")
+                        .IsUnique();
 
                     b.ToTable("Admins");
                 });
@@ -56,6 +72,8 @@ namespace backend_webapi.Migrations
 
                     b.Property<string>("CategoryName");
 
+                    b.Property<string>("Image");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -67,23 +85,22 @@ namespace backend_webapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email");
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
+                    b.Property<int>("LoginId");
+
                     b.Property<string>("MobileNumber");
 
-                    b.Property<string>("Password");
-
                     b.Property<string>("ProfileImage");
-
-                    b.Property<string>("Status");
 
                     b.Property<string>("Token");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoginId")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -96,21 +113,17 @@ namespace backend_webapi.Migrations
 
                     b.Property<string>("DeliveryStatus");
 
-                    b.Property<string>("Email");
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
+
+                    b.Property<int>("LoginId");
 
                     b.Property<string>("MobileNumber");
 
                     b.Property<string>("NIC");
 
-                    b.Property<string>("Password");
-
                     b.Property<string>("ProfileImage");
-
-                    b.Property<string>("Status");
 
                     b.Property<string>("Token");
 
@@ -119,6 +132,9 @@ namespace backend_webapi.Migrations
                     b.Property<string>("VehicleType");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoginId")
+                        .IsUnique();
 
                     b.ToTable("Deliverers");
                 });
@@ -134,6 +150,8 @@ namespace backend_webapi.Migrations
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
+
+                    b.Property<string>("connectionId");
 
                     b.HasKey("Id");
 
@@ -262,17 +280,15 @@ namespace backend_webapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email");
+                    b.Property<string>("AccountNo");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
+                    b.Property<int>("LoginId");
+
                     b.Property<string>("MobileNumber");
-
-                    b.Property<string>("Password");
-
-                    b.Property<string>("PaypalAcc");
 
                     b.Property<string>("ProfileImage");
 
@@ -282,15 +298,40 @@ namespace backend_webapi.Migrations
 
                     b.Property<double>("ShopLocationLongitude");
 
-                    b.Property<string>("Status");
+                    b.Property<string>("ShopName");
 
                     b.Property<string>("Token");
 
-                    b.Property<string>("shopName");
-
                     b.HasKey("Id");
 
+                    b.HasIndex("LoginId")
+                        .IsUnique();
+
                     b.ToTable("Sellers");
+                });
+
+            modelBuilder.Entity("webapi.Entities.Admin", b =>
+                {
+                    b.HasOne("backend_webapi.Entities.Login", "login")
+                        .WithOne("Admin")
+                        .HasForeignKey("webapi.Entities.Admin", "LoginId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("webapi.Entities.Customer", b =>
+                {
+                    b.HasOne("backend_webapi.Entities.Login", "login")
+                        .WithOne("Customer")
+                        .HasForeignKey("webapi.Entities.Customer", "LoginId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("webapi.Entities.Deliverer", b =>
+                {
+                    b.HasOne("backend_webapi.Entities.Login", "login")
+                        .WithOne("Deliverer")
+                        .HasForeignKey("webapi.Entities.Deliverer", "LoginId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("webapi.Entities.Location", b =>
@@ -319,10 +360,15 @@ namespace backend_webapi.Migrations
 
             modelBuilder.Entity("webapi.Entities.OrderItemProduct", b =>
                 {
-                    b.HasOne("webapi.Entities.OrderItem", "OrderItem")
+                    b.HasOne("webapi.Entities.OrderItem")
                         .WithMany("OrderItemProducts")
                         .HasForeignKey("OrderItemId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("webapi.Entities.OrderItem", "OrderItem")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("webapi.Entities.Product", "Product")
                         .WithMany("OrderItemProducts")
@@ -348,6 +394,14 @@ namespace backend_webapi.Migrations
                     b.HasOne("webapi.Entities.Seller", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("webapi.Entities.Seller", b =>
+                {
+                    b.HasOne("backend_webapi.Entities.Login", "login")
+                        .WithOne("Seller")
+                        .HasForeignKey("webapi.Entities.Seller", "LoginId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

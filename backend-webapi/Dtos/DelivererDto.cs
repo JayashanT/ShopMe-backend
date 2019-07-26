@@ -10,9 +10,6 @@ namespace webapi.Dtos
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Password { get; set; }
-        public string Status { get; set; }
-        public string Email { get; set; }
         public string ProfileImage { get; set; }
         public string MobileNumber { get; set; }
         public string Token { get; set; }
@@ -21,5 +18,6 @@ namespace webapi.Dtos
         public string DeliveryStatus { get; set; }
         public string NIC { get; set; }
         public int LocationId { get; set; }
+        public int LoginId { get; set; }
     }
 }

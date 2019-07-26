@@ -44,7 +44,7 @@ namespace webapi.Controllers
         //post  api/admins/addAdmin
         [HttpPost]
         [Route("addAdmin")]
-        public IActionResult Add([FromBody] AdminVM admin)
+        public IActionResult Add([FromBody] AdminDto admin)
         {
             Admin toAdd = Mapper.Map<Admin>(admin);
 
