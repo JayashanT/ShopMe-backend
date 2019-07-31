@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -86,8 +85,6 @@ namespace backend_webapi
             services.AddScoped<IDelivererService, DelivererService>();
             services.AddScoped<ILocationService, LocationService>();
             
-            //services.AddCors();
-            services.AddSignalR();
             services.AddCors(options =>
             {
                 options.AddPolicy("MyPolicy",
@@ -178,44 +175,9 @@ namespace backend_webapi
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<DelivererRequest>("/app");
-            });
-
-
             app.UseHttpsRedirection();
             app.UseWebSockets();
             //app.UseMvc();
-        }
-    }
-    public class DelivererRequest : Hub
-    {
-        private IDelivererService _delivererService;
-        public DelivererRequest(IDelivererService delivererService)
-        {
-            _delivererService = delivererService;
-        }
-
-        public async Task Send(string userId)//DeliveryDetails deliveryDetails
-        {
-            double lat = 6.795134521923838;//5.953118046485079;
-            double lng = 79.9003317207098;// 80.55386066436768;
-            var deliverers = _delivererService.GetDelivererNearByShop(lat, lng);
-            foreach (var deliverer in deliverers)
-            {
-                if (deliverer != null)
-                {
-                    await Clients.Client(userId).SendAsync("Send", "hello world");
-                }
-                Thread.Sleep(20000);
-            }
-        }
-
-        public string GetConnectionId()
-        {
-            return Context.ConnectionId;
         }
     }
 }

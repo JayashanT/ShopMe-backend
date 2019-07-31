@@ -55,9 +55,9 @@ namespace webapi.Controllers
         {
             Product toAdd = Mapper.Map<Product>(product);
 
-            Image img = Image.FromFile(product.Image);
-            byte[] bArr = imgToByteArray(img);
-            toAdd.Image = Convert.ToBase64String(bArr);
+            //Image img = Image.FromFile(product.Image);
+            //byte[] bArr = imgToByteArray(img);
+            //toAdd.Image = Convert.ToBase64String(bArr);
 
             _productRepository.Add(toAdd);
 

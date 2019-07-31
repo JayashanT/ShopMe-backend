@@ -58,9 +58,12 @@ namespace webapi.Services
         public void UpdateDeliveryStatus(int id, string deliveryStatus)
         {
             Deliverer deliverer = _delivererRepository.Get(id);
-            deliverer.DeliveryStatus = deliveryStatus;
-            _delivererRepository.Update(deliverer);
-            _delivererRepository.Save();
+            if (deliverer != null)
+            {
+                deliverer.DeliveryStatus = deliveryStatus;
+                _delivererRepository.Update(deliverer);
+                _delivererRepository.Save();
+            }
         }
 
         //GetAllDeliverers
@@ -117,6 +120,5 @@ namespace webapi.Services
             }
             return false;
         }
-
     }
 }

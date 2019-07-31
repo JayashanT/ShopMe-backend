@@ -83,10 +83,18 @@ namespace webapi.Controllers
 
         [HttpPost]  
         [Route("waiting")]
-        public IActionResult WaitingForDelivery(LocationDto deliveryLocation) //ask by deliverer 
+        public IActionResult WaitingForDelivery(LocationVM deliveryLocation) //ask by deliverer 
         {
             _delivererService.UpdateDeliveryStatus(deliveryLocation.DelivererId, "online");
-            _locationService.UpdateDeliveryLocation(deliveryLocation);
+            var location = new LocationDto()
+            {
+                Id = 0,
+                DelivererId = deliveryLocation.DelivererId,
+                connectionId = deliveryLocation.connectionId,
+                Latitude = deliveryLocation.Latitude,
+                Longitude = deliveryLocation.Longitude
+            };
+            _locationService.UpdateDeliveryLocation(location);
             return Ok();
         }
         
@@ -94,7 +102,10 @@ namespace webapi.Controllers
         [Route("x")]
         public IActionResult x() 
         {
-            return Ok();
+            double lat = 6.795134521923838;//5.953118046485079;
+            double lng = 79.9003317207098;// 80.55386066436768;
+            var deliverers = _delivererService.GetDelivererNearByShop(lat, lng);
+            return Ok(deliverers);
         }
 
         [HttpGet]

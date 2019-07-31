@@ -284,6 +284,8 @@ namespace backend_webapi.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("LastName");
 
                     b.Property<int>("LoginId");
@@ -368,7 +370,7 @@ namespace backend_webapi.Migrations
                     b.HasOne("webapi.Entities.OrderItem", "OrderItem")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("webapi.Entities.Product", "Product")
                         .WithMany("OrderItemProducts")

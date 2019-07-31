@@ -50,7 +50,11 @@ namespace webapi.Services
             if (login == null)
                 return null;
             else if (login.Role == "Customer")
-                user = _customerRepository.Get(x => x.LoginId==login.Id).FirstOrDefault();
+            {
+                user = _customerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
+                user.Role="Customer";
+            }
+                
             else if (login.Role == "Deliverer")
                 user = _delivererRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
             else if (login.Role == "Seller")
@@ -79,7 +83,8 @@ namespace webapi.Services
                 {
                 new Claim(ClaimTypes.Name, id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                //Expires = DateTime.UtcNow.AddDays(7),
+                Expires=DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

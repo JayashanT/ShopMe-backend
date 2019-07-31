@@ -15,6 +15,7 @@ using webapi.Dtos;
 
 namespace webapi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class UserAuthController : Controller
     {

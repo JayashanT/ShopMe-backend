@@ -29,9 +29,10 @@ namespace webapi.Services
 
         public bool UpdateDeliveryLocation(LocationDto deliveryLocation)
         {
-            var locationDb = _locationRepository.Get(x=> x.Id==deliveryLocation.Id).FirstOrDefault();
+            var locationDb = _locationRepository.Get(x=> x.DelivererId==deliveryLocation.DelivererId).FirstOrDefault();
             if (locationDb != null)
             {
+                deliveryLocation.Id = locationDb.Id;
                 Location location = Mapper.Map<Location>(deliveryLocation);
                 _locationRepository.Update(location);
                 return _locationRepository.Save();

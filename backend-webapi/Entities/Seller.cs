@@ -12,6 +12,7 @@ namespace webapi.Entities
         public string ShopName { get; set; }
         public string AccountNo { get; set; }
         public string ShopAddress { get; set; }
+        public string Image { get; set; }
         public double ShopLocationLatitude { get; set; }
         public double ShopLocationLongitude { get; set; }
         public virtual List<Product> Products { get; set; }
