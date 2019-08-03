@@ -42,12 +42,13 @@ namespace webapi.Services
         //GetProductsByShop
         public IEnumerable<ProductDto> GetProductsByShop(int sellerId)
         {
-            var allProducts = _productRepository.GetAll().ToList();
-            var allProductsDto = allProducts.Select(x => Mapper.Map<ProductDto>(sellerId));
+            var allProducts = _productRepository.Get(x=>x.SellerId==sellerId).ToList();
+            var allProductsDto = Mapper.Map<List<Product>, List<ProductDto>>(allProducts);
             return allProductsDto;
         }
 
         //GetProductsBySearchResult
+        /*
         public IEnumerable<ProductDetails> GetProductsBySearchResult (string searchText, double Latitude, double Longitude)
         {
             var s = "laptop";
@@ -76,6 +77,7 @@ namespace webapi.Services
 
             return query;
         }
+        */
 
         //GetProductsByPopular
         public IEnumerable<ProductDetails> GetProductsByPopular(double Latitude, double Longitude)

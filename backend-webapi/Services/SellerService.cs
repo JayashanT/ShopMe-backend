@@ -28,18 +28,20 @@ namespace webapi.Services
             var query = (
                         from sellerShop in _sellerRepository.GetAll()
 
-                        where new GeoCoordinate() { Latitude = sellerShop.ShopLocationLatitude, Longitude = sellerShop.ShopLocationLongitude }.GetDistanceTo(source) < 15000
+                        where new GeoCoordinate() { Latitude = sellerShop.ShopLocationLatitude, Longitude = sellerShop.ShopLocationLongitude }.GetDistanceTo(source) < 20000
 
                         select new ShopDetails{
                             Id=sellerShop.Id,
                             FirstName=sellerShop.FirstName,
                             LastName=sellerShop.LastName,
-                            ProfileImage=sellerShop.ProfileImage,
+                            Image=sellerShop.Image,
                             MobileNumber=sellerShop.MobileNumber,
                             ShopAddress=sellerShop.ShopAddress,
                             Distance= new GeoCoordinate() { Latitude = sellerShop.ShopLocationLatitude, Longitude = sellerShop.ShopLocationLongitude }.GetDistanceTo(source),
                             ShopLocationLatitude=sellerShop.ShopLocationLatitude,
                             ShopLocationLongitude = sellerShop.ShopLocationLongitude,
+                            ShopName = sellerShop.ShopName,
+                            
                         }
                         ).ToList();
 

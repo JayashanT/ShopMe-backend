@@ -51,22 +51,44 @@ namespace webapi.Services
                 return null;
             else if (login.Role == "Customer")
             {
-                user = _customerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
-                user.Role="Customer";
+                var details = _customerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
+                if(details!=null)
+                    user = new
+                    {
+                        Data=details,
+                        Role=login.Role,
+                    };
             }
                 
             else if (login.Role == "Deliverer")
-                user = _delivererRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
+            {
+                var details = _delivererRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
+                if (details != null)
+                    user = new
+                    {
+                        Data = details,
+                        Role = login.Role
+                    };
+            }
+                
             else if (login.Role == "Seller")
-                user = _sellerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
+            {
+                var details = _sellerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
+                if (details != null)
+                    user = new
+                    {
+                        Data = details,
+                        Role = login.Role
+                    };
+            }
+                
 
             // return null if user not found
             if (user == null)
                 return null;
 
             // authentication successful so generate jwt token
-            user.Token = Authentication(user.Id, user.Token);
-            
+            user.Data.Token = Authentication(user.Data.Id, user.Data.Token);
 
             return user;
         }

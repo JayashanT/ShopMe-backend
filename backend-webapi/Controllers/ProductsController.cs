@@ -100,39 +100,14 @@ namespace webapi.Controllers
             var x = _productService.GetProductsByLocation(lat, lng);
             return Ok(x);
         }
-
-        [HttpGet]
-        [Route("GetProductsSearch/{searchText}")]
-        public IActionResult GetProductsSearch(string searchText)
-        {
-            double lat = 6.795134521923838;
-            double lng = 79.9003317207098;
-            var x = _productService.GetProductsBySearchResult(searchText,lat, lng);
-            return Ok(x);
-        }
         
-        //convert image to bytearray
-        public byte[] imgToByteArray(Image img)
+        [HttpGet]
+        [Route("GetProductsByShop/{id?}")]
+        public IActionResult GetProductsByShop(int id)//
         {
-            using (MemoryStream mStream = new MemoryStream())
-            {
-                img.Save(mStream, img.RawFormat);
-                return mStream.ToArray();
-            }
+            var x = _productService.GetProductsByShop(id);
+            return Ok(x);
         }
     }
 }
 
-/*
-[HttpGet]
-[Route("image")]
-public string GetImageFromByteArray()
-{
-    //image to byteArray
-    Image img = Image.FromFile("E:\\Huawei.jpg");
-    byte[] bArr = imgToByteArray(img);
-    Console.WriteLine(bArr);
-    string base64String = Convert.ToBase64String(bArr);
-    return base64String;
-}
-*/

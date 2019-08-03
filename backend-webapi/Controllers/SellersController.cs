@@ -51,7 +51,7 @@ namespace webapi.Controllers
         public IActionResult Add([FromBody] SellerDto  seller)
         {
             Seller toAdd = Mapper.Map<Seller>(seller);
-
+                
             _sellerRepository.Add(toAdd);
 
             bool result = _sellerRepository.Save();
@@ -64,12 +64,10 @@ namespace webapi.Controllers
         }
 
         [HttpGet]
-        [Route("getShopsNearBy")]
-        public IActionResult GetNearestShop()
+        [Route("{latValue},{lngValue}")]
+        public IActionResult GetNearestShop(double latValue, double lngValue)
         {
-            double lat = 6.795134521923838; 
-            double lng = 79.9003317207098;
-            var shop = _sellerService.GetShopsNearByLocation(lat, lng);
+            var shop = _sellerService.GetShopsNearByLocation(latValue, lngValue);
             return Ok(shop);
         }
     }
