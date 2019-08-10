@@ -14,21 +14,6 @@ namespace webapi.Entities
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
-            modelBuilder.Entity<OrderItemProduct>().HasKey(oip => new { oip.Id });
-            modelBuilder.Entity<OrderItemProduct>()
-                .HasOne(oip => oip.OrderItem)
-                .WithMany()
-                .HasForeignKey(oip => oip.OrderItemId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<OrderItemProduct>()
-                .HasOne(oip => oip.OrderItem)
-                .WithMany()
-                .HasForeignKey(oip => oip.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
             modelBuilder.Entity<Customer>().ToTable("Customers");
             modelBuilder.Entity<Seller>().ToTable("Sellers");
             modelBuilder.Entity<Deliverer>().ToTable("Deliverers");

@@ -24,11 +24,19 @@ namespace webapi.Controllers
 
         [HttpPost]
         [Route("getAllOrderDetailsByCustomer")]
-        public IActionResult GetAllOrderDetailsByCustomer() //customerId
+        public IActionResult GetAllOrderDetailsByCustomer(int id) //customerId
         {
-            var result = _orderService.GetAllOrderDetailsByCustomer(1);
+            var result = _orderService.GetAllOrderDetailsByCustomer(id);
             return Ok(result);
         }
+        [HttpPost]
+        [Route("getWaitingOrderDetailsBySeller/{id?}")]
+        public IActionResult GetWaitingOrderDetailsBySeller(int id) 
+        {
+            var result = _orderService.GetWaitingOrderDetailsBySeller(id);
+            return Ok(result);
+        }
+
 
         [HttpPost]
         [Route("payment")]

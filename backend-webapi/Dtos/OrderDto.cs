@@ -10,5 +10,7 @@ namespace webapi.Dtos
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CustomerId { get; set; }
+        public string Status { get; set; }
+        public int SellerId { get; set; }
     }
 }

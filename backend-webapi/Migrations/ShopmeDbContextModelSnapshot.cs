@@ -15,7 +15,7 @@ namespace backend_webapi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -145,13 +145,13 @@ namespace backend_webapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ConnectionId");
+
                     b.Property<int>("DelivererId");
 
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
-
-                    b.Property<string>("connectionId");
 
                     b.HasKey("Id");
 
@@ -171,9 +171,15 @@ namespace backend_webapi.Migrations
 
                     b.Property<int>("CustomerId");
 
+                    b.Property<int>("SellerId");
+
+                    b.Property<string>("Status");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Orders");
                 });
@@ -200,6 +206,8 @@ namespace backend_webapi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("OrderItemId");
 
@@ -349,6 +357,11 @@ namespace backend_webapi.Migrations
                     b.HasOne("webapi.Entities.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("webapi.Entities.Seller", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

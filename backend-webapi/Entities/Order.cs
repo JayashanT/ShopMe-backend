@@ -9,8 +9,12 @@ namespace webapi.Entities
         public int Id { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public int CustomerId { get; set; }
+        public int SellerId { get; set; }
+        public string Status { get; set; }
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
+        [ForeignKey("SellerId")]
+        public virtual Seller Seller { get; set; }
         public virtual List<OrderItem> OrderItems { get; set; }
     }
 }

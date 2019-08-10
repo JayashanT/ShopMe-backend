@@ -11,7 +11,7 @@ namespace webapi.Entities
     {
         [Key]
         public int Id { get; set; }
-
+        public System.DateTime CreatedAt { get; set; }
         public int OrderItemId { get; set; }
         [ForeignKey("OrderItemId")]
         public virtual OrderItem OrderItem { get; set; }

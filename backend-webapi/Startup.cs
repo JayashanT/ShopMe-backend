@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -93,6 +94,7 @@ namespace backend_webapi
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSignalR();
             //services.AddAutoMapper();
 
 
@@ -168,6 +170,10 @@ namespace backend_webapi
             app.UseCors("MyPolicy");
 
             app.UseAuthentication();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<DelivererRequest>("/connectionHub");
+            });
 
             app.UseMvc(routes =>
             {
@@ -178,6 +184,48 @@ namespace backend_webapi
             app.UseHttpsRedirection();
             app.UseWebSockets();
             //app.UseMvc();
+        }
+    }
+
+    public class DelivererRequest : Hub
+    {
+        private IDelivererService _delivererService;
+        private ILocationService _LocationService;
+        private ICommonRepository<Location> _locationRepository;
+        private IOrderService _orderService;
+
+        public DelivererRequest(IDelivererService delivererService, ICommonRepository<Location> locationRepository,
+                                ILocationService LocationService, IOrderService orderService)
+        {
+            _delivererService = delivererService;
+            _locationRepository = locationRepository;
+            _LocationService = LocationService;
+            _orderService = orderService;
+        }
+
+        public async Task GoOnline(LocationDto locationDto) 
+        {
+            string connectionId= Context.ConnectionId;
+            locationDto.ConnectionId = connectionId;
+            var location = _LocationService.UpdateDeliveryLocation(locationDto);
+            _delivererService.UpdateDeliveryStatus(locationDto.DelivererId, "online");
+
+             var newAvailble = _orderService.GetOrdersNearByDeliverers(locationDto.Latitude, locationDto.Longitude);
+
+            await Clients.Client(connectionId).SendAsync("ReceiveMessage", newAvailble );
+        }
+       
+        public async Task SendRequest()
+        {
+            var deliverers = _delivererService.GetDelivererNearByShop(6.935923, 79.845766);
+
+            if (deliverers != null)
+                foreach (var deliverer in deliverers)
+                {
+                    Location location = _locationRepository.Get(x => x.DelivererId == deliverer.delivererId).FirstOrDefault();
+                    await Clients.Client(location.ConnectionId).SendAsync("SendRequest", "you have new order");
+                    //Thread.Sleep(4000);
+                }
         }
     }
 }

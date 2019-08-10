@@ -11,6 +11,6 @@ namespace webapi.Dtos
         public int DelivererId { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public string connectionId { get; set; }
+        public string ConnectionId { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace webapi.Entities
         public double Longitude { get; set; }
         public int DelivererId { get; set; }
         [ForeignKey("DelivererId")]
-        public string connectionId { get; set; }
+        public string ConnectionId { get; set; }
         public virtual Deliverer Deliverer { get; set; }
     }
 }

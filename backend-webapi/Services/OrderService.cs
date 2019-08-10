@@ -10,6 +10,8 @@ using webapi.Entities;
 using webapi.Repositories;
 using webapi.ViewModels;
 using webapi.Services;
+using GeoCoordinatePortable;
+using backend_webapi.Dtos;
 
 namespace webapi.Services
 {
@@ -19,9 +21,10 @@ namespace webapi.Services
         private ICommonRepository<OrderItem> _orderItemRepository;
         private ICommonRepository<Product> _productRepository;
         private ICommonRepository<OrderItemProduct> _orderItemProductRepository;
+        private ICommonRepository<Seller> _sellerRepository;
         private IProductService _productService;
 
-        public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository,
+        public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository, ICommonRepository<Seller> sellerRepository,
                             ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository, IProductService productService)
         {
             _orderItemRepository = orderItemRepository;
@@ -29,13 +32,17 @@ namespace webapi.Services
             _productRepository = productRepository;
             _orderItemProductRepository = orderItemProductRepository;
             _productService = productService;
+            _sellerRepository = sellerRepository;
         }
 
+        //GetOrderById
         public OrderDto GetOrderById(int customerId, int orderId)
         {
             var order = _orderRepository.Get(x => x.CustomerId == customerId && x.Id == orderId).SingleOrDefault();
             return Mapper.Map<OrderDto>(order);
         }
+
+        //GetAllOrdersByCustomer
         public IEnumerable<OrderDto> GetAllOrdersByCustomer(int customerId)
         {
             var allOrders = _orderRepository.Get(x => x.CustomerId == customerId).ToList();
@@ -43,20 +50,17 @@ namespace webapi.Services
             return allOrdersDetails;
         }
 
+        //GetAllOrderDetailsByCustomer
         public Object GetAllOrderDetailsByCustomer(int customerId)
         {
             var query = (
-                        from o in _orderRepository.GetAll()
-                        where o.CustomerId == customerId
+                        from o in _orderRepository.Get(o=>o.CustomerId==customerId) 
 
-                        from oi in _orderItemRepository.GetAll()
-                        where oi.OrderId == o.Id
+                        from oi in _orderItemRepository.Get(oi=>oi.OrderId==o.Id)
 
-                        from oip in _orderItemProductRepository.GetAll()
-                        where oip.OrderItemId == oi.Id
+                        from oip in _orderItemProductRepository.Get(oip=>oip.OrderItemId==oi.Id)
 
-                        from p in _productRepository.GetAll()
-                        where oip.ProductId == p.Id
+                        from p in _productRepository.Get(p=>p.Id==oip.ProductId)
 
                         orderby oi.OrderId 
                         select new { o.CreatedAt, p.Description, oi.Quantity }
@@ -64,7 +68,67 @@ namespace webapi.Services
             return query;
         }
 
+        //GetWaitingOrderDetailsBySeller
+        public List<OrderDetails> GetWaitingOrderDetailsBySeller(int sellerId)
+        {
+            var orderDetails = new List<OrderDetails>(); 
+            var orders = _orderRepository.Get(o => o.SellerId == sellerId && o.Status == "to be confirmed");
+            
+            foreach (var order in orders)
+            {
+                var productDeatails = GetProductsByOrder(order);
+                var orderItems = new OrderDetails()
+                {
+                    Id = order.Id,
+                    Products = productDeatails
+                };
 
+                orderDetails.Add(orderItems);
+            }
+            return orderDetails;
+        }
+
+        //GetProductsByOrder
+        public List<ProductDto> GetProductsByOrder(Order order)
+        {
+            List<ProductDto> productsList = new List<ProductDto>();
+            
+            var orderItems = _orderItemRepository.Get(x => x.OrderId == order.Id);
+            foreach (var orderItem in orderItems)
+            {
+                var quantity = orderItem.Quantity;
+                var itemproducts = _orderItemProductRepository.Get(x => x.OrderItemId == orderItem.Id);
+                foreach (var item in itemproducts)
+                {
+                    var product = _productRepository.Get(x => x.Id == item.ProductId).FirstOrDefault();
+                    product.Quantity = quantity;
+                    productsList.Add(Mapper.Map<ProductDto>(product));
+                }
+                
+            }
+
+            return productsList;
+        }
+
+        //GetAllOrderDetailsBySeller
+        public Object GetOrdersNearByDeliverers(double latitude , double longitude)
+        {
+            var source = new GeoCoordinate() { Latitude = latitude, Longitude = longitude };
+
+            var query = (
+                        from s in _sellerRepository.GetAll()
+                        from o in _orderRepository.Get(o => o.Status=="to be delivered" && o.SellerId==s.Id)
+
+                        where new GeoCoordinate() { Latitude = s.ShopLocationLatitude, Longitude=s.ShopLocationLongitude }.GetDistanceTo(source) < 10000
+
+                        orderby new GeoCoordinate() { Latitude = s.ShopLocationLatitude, Longitude = s.ShopLocationLongitude }.GetDistanceTo(source) ascending
+
+                        select new { o.Id }
+                        );
+            return query;
+        }
+
+        //CreateNewOrder
         public void CreateNewOrder(OrderVM orderVM)
         {
             try

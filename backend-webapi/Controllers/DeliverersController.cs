@@ -12,6 +12,7 @@ using webapi.Repositories;
 using webapi.Services;
 using System.Threading;
 using backend_webapi;
+using backend_webapi.ViewModels;
 
 namespace webapi.Controllers
 {
@@ -69,6 +70,7 @@ namespace webapi.Controllers
             }
             return Ok(Mapper.Map<DelivererDto>(toAdd));
         }
+        /*
         
         [HttpGet]
         [Route("getDelivererNearByShop")]
@@ -90,13 +92,14 @@ namespace webapi.Controllers
             {
                 Id = 0,
                 DelivererId = deliveryLocation.DelivererId,
-                connectionId = deliveryLocation.connectionId,
+                ConnectionId = deliveryLocation.ConnectionId,
                 Latitude = deliveryLocation.Latitude,
                 Longitude = deliveryLocation.Longitude
             };
             _locationService.UpdateDeliveryLocation(location);
             return Ok();
         }
+        
         
         [HttpGet]
         [Route("x")]
@@ -107,6 +110,7 @@ namespace webapi.Controllers
             var deliverers = _delivererService.GetDelivererNearByShop(lat, lng);
             return Ok(deliverers);
         }
+        */
 
         [HttpGet]
         [Route("response")]
