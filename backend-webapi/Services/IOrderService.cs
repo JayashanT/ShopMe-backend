@@ -15,5 +15,6 @@ namespace webapi.Services
         object GetOrdersNearByDeliverers(double latitude, double longitude);
         List<ProductDto> GetProductsByOrder(Order order);
         List<OrderDetails> GetWaitingOrderDetailsBySeller(int sellerId);
+        void UpdateOrderStatus(int id, string status);
     }
 }

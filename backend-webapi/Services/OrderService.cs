@@ -119,13 +119,24 @@ namespace webapi.Services
                         from s in _sellerRepository.GetAll()
                         from o in _orderRepository.Get(o => o.Status=="to be delivered" && o.SellerId==s.Id)
 
-                        where new GeoCoordinate() { Latitude = s.ShopLocationLatitude, Longitude=s.ShopLocationLongitude }.GetDistanceTo(source) < 10000
+                        where new GeoCoordinate() { Latitude = s.ShopLocationLatitude, Longitude=s.ShopLocationLongitude }.GetDistanceTo(source) < 20000
 
                         orderby new GeoCoordinate() { Latitude = s.ShopLocationLatitude, Longitude = s.ShopLocationLongitude }.GetDistanceTo(source) ascending
 
-                        select new { o.Id }
+                        select new { s.Id }
                         );
             return query;
+        }
+
+
+        //UpdateOrderStatus
+        public void UpdateOrderStatus(int id, string status)
+        {
+            var order = _orderRepository.Get(x => x.Id == id).First();
+            order.Status = status;
+            _orderRepository.Update(order);
+            _orderRepository.Update(order);
+            _orderRepository.Save();
         }
 
         //CreateNewOrder

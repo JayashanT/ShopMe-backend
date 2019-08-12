@@ -10,9 +10,8 @@ namespace webapi.Services
         bool DeleteDeliverer(int id);
         IEnumerable<DelivererDto> GetAllDeliverers();
         DelivererDto GetDelivererById(int id);
-        IEnumerable<DeliveryDetails> GetDelivererNearByShop(double latitude, double longitude);  
+        DeliveryDetails GetDelivererNearByShop(double latitude, double longitude);  
         bool UpdateDeliverer(DelivererDto delivererDto);
         void UpdateDeliveryStatus(int id, string deliveryStatus);
-        bool AvailableDelivery(bool availability);
     }
 }

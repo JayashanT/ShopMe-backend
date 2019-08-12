@@ -90,7 +90,7 @@ namespace backend_webapi
             {
                 options.AddPolicy("MyPolicy",
                 builder =>
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+                    builder.WithOrigins("http://localhost:3000", "http://192.168.43.16:8081").AllowAnyMethod().AllowAnyHeader().AllowCredentials());//WithOrigins("http://192.168.43.15:3000")
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -172,7 +172,7 @@ namespace backend_webapi
             app.UseAuthentication();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<DelivererRequest>("/connectionHub");
+                routes.MapHub<ConnectionHub>("/connectionHub");
             });
 
             app.UseMvc(routes =>
@@ -186,15 +186,15 @@ namespace backend_webapi
             //app.UseMvc();
         }
     }
-
-    public class DelivererRequest : Hub
+    
+    public class ConnectionHub : Hub
     {
         private IDelivererService _delivererService;
         private ILocationService _LocationService;
         private ICommonRepository<Location> _locationRepository;
         private IOrderService _orderService;
 
-        public DelivererRequest(IDelivererService delivererService, ICommonRepository<Location> locationRepository,
+        public ConnectionHub(IDelivererService delivererService, ICommonRepository<Location> locationRepository,
                                 ILocationService LocationService, IOrderService orderService)
         {
             _delivererService = delivererService;
@@ -209,23 +209,14 @@ namespace backend_webapi
             locationDto.ConnectionId = connectionId;
             var location = _LocationService.UpdateDeliveryLocation(locationDto);
             _delivererService.UpdateDeliveryStatus(locationDto.DelivererId, "online");
-
-             var newAvailble = _orderService.GetOrdersNearByDeliverers(locationDto.Latitude, locationDto.Longitude);
-
-            await Clients.Client(connectionId).SendAsync("ReceiveMessage", newAvailble );
+ 
+            await Clients.Client(connectionId).SendAsync("ReceiveMessage", "you are online" );
         }
-       
-        public async Task SendRequest()
-        {
-            var deliverers = _delivererService.GetDelivererNearByShop(6.935923, 79.845766);
 
-            if (deliverers != null)
-                foreach (var deliverer in deliverers)
-                {
-                    Location location = _locationRepository.Get(x => x.DelivererId == deliverer.delivererId).FirstOrDefault();
-                    await Clients.Client(location.ConnectionId).SendAsync("SendRequest", "you have new order");
-                    //Thread.Sleep(4000);
-                }
+        public async Task SendRequest(double shopLatitude, double shopLongitude)
+        {
+            var availableDelivery = _delivererService.GetDelivererNearByShop(shopLatitude, shopLongitude);
+            await Clients.Client(availableDelivery.ConnectionId).SendAsync("SendRequest", availableDelivery.delivererId);
         }
     }
 }

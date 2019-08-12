@@ -27,32 +27,25 @@ namespace webapi.Services
         }
 
         //GetDelivererNearByShop
-        public IEnumerable<DeliveryDetails> GetDelivererNearByShop(double latitude, double longitude)
+        public DeliveryDetails GetDelivererNearByShop(double latitude, double longitude) ////shop location
         {
             var source = new GeoCoordinate() { Latitude = latitude, Longitude = longitude }; //shop location
 
             var query = (
-                        from deliverer in _delivererRepository.GetAll()
-                        from location in _locationRepository.GetAll()
-                        where deliverer.Id == location.DelivererId && deliverer.DeliveryStatus == "online" && new GeoCoordinate() { Latitude = location.Latitude, Longitude = location.Longitude }.GetDistanceTo(source)<100000
+                        from deliverer in _delivererRepository.Get(x=>x.DeliveryStatus=="online")
+                        from location in _locationRepository.Get(x=>x.DelivererId==deliverer.Id)
+                        where new GeoCoordinate() { Latitude = location.Latitude, Longitude = location.Longitude }.GetDistanceTo(source)<100000
                         orderby new GeoCoordinate() { Latitude = location.Latitude, Longitude = location.Longitude }.GetDistanceTo(source) ascending
                         select new DeliveryDetails
                         {
                             delivererId=deliverer.Id,
-                            shopLatitude=latitude,
-                            shopLongitude=longitude
+                            ConnectionId=location.ConnectionId,
                         }
                         ).ToList();
 
-            return query;
+            return query.First();
         }
 
-        //availableDelivery
-        public bool AvailableDelivery(bool availability)
-        {
-
-            return availability;
-        }
 
         //updateDeliveryStatus
         public void UpdateDeliveryStatus(int id, string deliveryStatus)

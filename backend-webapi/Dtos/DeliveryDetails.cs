@@ -8,9 +8,6 @@ namespace webapi.Dtos
     public class DeliveryDetails
     {
         public int delivererId { get; set; }
-        public double shopLatitude { get; set; }
-        public double shopLongitude { get; set; }
-        //public string shopName { get; set; }
-
+        public string ConnectionId { get; set; }
     }
 }

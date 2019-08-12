@@ -53,6 +53,14 @@ namespace webapi.Controllers
             }
             return Ok(delivererFromRepo);
         }
+        
+        [HttpGet]
+        [Route("updateDeliveryStatus/{id},{status}")]
+        public IActionResult UpdateDeliveryStatus(int id, string status)
+        {
+            _delivererService.UpdateDeliveryStatus(id, status);
+            return Ok();
+        }
 
         [HttpPost]
         [Route("addDeliverer")]
@@ -69,54 +77,6 @@ namespace webapi.Controllers
                 return new StatusCodeResult(400);
             }
             return Ok(Mapper.Map<DelivererDto>(toAdd));
-        }
-        /*
-        
-        [HttpGet]
-        [Route("getDelivererNearByShop")]
-        public IActionResult GetDelivererNearByShop()
-        {
-            double lat = 6.795134521923838;//5.953118046485079;
-            double lng = 79.9003317207098;// 80.55386066436768;
-            var deliverers=_delivererService.GetDelivererNearByShop(lat, lng);
-
-            return Ok(deliverers);
-        }
-
-        [HttpPost]  
-        [Route("waiting")]
-        public IActionResult WaitingForDelivery(LocationVM deliveryLocation) //ask by deliverer 
-        {
-            _delivererService.UpdateDeliveryStatus(deliveryLocation.DelivererId, "online");
-            var location = new LocationDto()
-            {
-                Id = 0,
-                DelivererId = deliveryLocation.DelivererId,
-                ConnectionId = deliveryLocation.ConnectionId,
-                Latitude = deliveryLocation.Latitude,
-                Longitude = deliveryLocation.Longitude
-            };
-            _locationService.UpdateDeliveryLocation(location);
-            return Ok();
-        }
-        
-        
-        [HttpGet]
-        [Route("x")]
-        public IActionResult x() 
-        {
-            double lat = 6.795134521923838;//5.953118046485079;
-            double lng = 79.9003317207098;// 80.55386066436768;
-            var deliverers = _delivererService.GetDelivererNearByShop(lat, lng);
-            return Ok(deliverers);
-        }
-        */
-
-        [HttpGet]
-        [Route("response")]
-        public bool DelivererResponse(string response)
-        {
-            return (response == "confirm") ? true : false;
         }
     }
 }

@@ -37,6 +37,13 @@ namespace webapi.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("updateOrderStatus/{id},{status}")]
+        public IActionResult UpdateOrderStatus(int id, string status)
+        {
+            _orderService.UpdateOrderStatus(id, status);
+            return Ok();
+        }
 
         [HttpPost]
         [Route("payment")]
