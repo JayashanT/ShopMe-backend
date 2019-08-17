@@ -23,7 +23,7 @@ namespace webapi.Controllers
         }
 
         [HttpPost]
-        [Route("getAllOrderDetailsByCustomer")]
+        [Route("getAllOrderDetailsByCustomer/{id?}")]
         public IActionResult GetAllOrderDetailsByCustomer(int id) //customerId
         {
             var result = _orderService.GetAllOrderDetailsByCustomer(id);

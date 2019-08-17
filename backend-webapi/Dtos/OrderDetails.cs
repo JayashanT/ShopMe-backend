@@ -9,6 +9,9 @@ namespace backend_webapi.Dtos
     public class OrderDetails
     {
         public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string OrderStatus { get; set; }
+        public double TotalPrice { get; set; }
         public List<ProductDto> Products { get; set; }
     }
 }

@@ -9,6 +9,7 @@ select * from Orders
 select * from OrderItems
 select * from OrderItemProducts
 select * from Customers
+select * from Payments
 
 //insert into Login values ('Deliverer', 'prabashi@gmail.com', '1234')
 //insert into Categories values('electronic', null)
@@ -24,7 +25,7 @@ select * from Customers
 //insert into OrderItems values ( 5, 5 )
 //insert into OrderItemProducts values (GetDate(),4,2)
 //insert into Sellers values('prabashi', 'navoda', null,077222222,null,4,'shop-Katubadda', null,null,null,6.799012,79.888700,null)
-//
+//insert into Payments values (1100000, GetDate(),5)
 //update Login set Role='Seller' where Id=4
 //update Orders set Status='to be confirmed' where Id=4   'to be delivered'
 //delete from Products where Id=3

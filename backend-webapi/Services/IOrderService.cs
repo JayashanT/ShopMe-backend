@@ -9,7 +9,7 @@ namespace webapi.Services
     public interface IOrderService
     {
         void CreateNewOrder(OrderVM orderVM);
-        object GetAllOrderDetailsByCustomer(int customerId);
+        List<OrderDetails> GetAllOrderDetailsByCustomer(int customerId);
         IEnumerable<OrderDto> GetAllOrdersByCustomer(int customerId);
         OrderDto GetOrderById(int customerId, int orderId);
         object GetOrdersNearByDeliverers(double latitude, double longitude);
