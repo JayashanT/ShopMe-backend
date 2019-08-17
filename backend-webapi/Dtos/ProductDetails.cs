@@ -18,6 +18,7 @@ namespace webapi.Dtos
         public int Like { get; set; }
         public double Discount { get; set; }
         public double SellingPrice { get; set; }
-        public ShopDetails shopDetails { get; set; }
+        public string Category { get; set; }
+        public ShopDetails ShopDetails { get; set; }
     }
 }

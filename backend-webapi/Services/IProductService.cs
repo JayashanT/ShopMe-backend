@@ -13,7 +13,7 @@ namespace webapi.Services
         IEnumerable<ProductDetails> GetProductsByLocation(double Latitude, double Longitude);
         IEnumerable<ProductDetails> GetProductsByPopular(double Latitude, double Longitude);
         //IEnumerable<ProductDetails> GetProductsBySearchResult(string s, double Latitude, double Longitude);
-        IEnumerable<ProductDto> GetProductsByShop(int sellerId);
+        IEnumerable<ProductDetails> GetProductsByShop(int sellerId);
         void ReduceProductQuentity(int id, int Quantity);
         bool UpdateProduct(ProductDto productDto);
     }

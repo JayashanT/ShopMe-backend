@@ -37,7 +37,7 @@ namespace webapi.Services
                             Image=sellerShop.Image,
                             MobileNumber=sellerShop.MobileNumber,
                             ShopAddress=sellerShop.ShopAddress,
-                            Distance= new GeoCoordinate() { Latitude = sellerShop.ShopLocationLatitude, Longitude = sellerShop.ShopLocationLongitude }.GetDistanceTo(source),
+                            Distance= new GeoCoordinate() { Latitude = sellerShop.ShopLocationLatitude, Longitude = sellerShop.ShopLocationLongitude }.GetDistanceTo(source)/1000,
                             ShopLocationLatitude=sellerShop.ShopLocationLatitude,
                             ShopLocationLongitude = sellerShop.ShopLocationLongitude,
                             ShopName = sellerShop.ShopName,
@@ -46,6 +46,19 @@ namespace webapi.Services
                         ).ToList();
 
             return query;
+        }
+        //UpdateSellerConnectionId
+        public bool UpdateSellerConnectionId(int id, string connectionId)
+        {
+            var sellerinDb = _sellerRepository.Get(x => x.Id == id).First();
+
+            if (sellerinDb != null)
+            {
+                sellerinDb.ConnectionId = connectionId;
+                _sellerRepository.Update(sellerinDb);
+                return _sellerRepository.Save();
+            }
+            return false;
         }
 
         //GetAllSellers

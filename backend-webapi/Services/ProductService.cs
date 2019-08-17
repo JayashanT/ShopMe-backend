@@ -14,13 +14,16 @@ namespace webapi.Services
     {
         private ICommonRepository<Product> _productRepository;
         private ICommonRepository<Seller> _sellerRepository;
+        private ICommonRepository<Category> _categoryRepository;
         private ISellerService _sellerService;
 
-        public ProductService(ICommonRepository<Product> productRepository, ICommonRepository<Seller> sellerRepository, ISellerService sellerService)
+        public ProductService(ICommonRepository<Product> productRepository, ICommonRepository<Seller> sellerRepository
+                              , ISellerService sellerService, ICommonRepository<Category> categoryRepository)
         {
             _productRepository = productRepository;
             _sellerRepository = sellerRepository;
             _sellerService = sellerService;
+            _categoryRepository = categoryRepository;
         }  
         
         //GetProductById
@@ -40,11 +43,31 @@ namespace webapi.Services
         
 
         //GetProductsByShop
-        public IEnumerable<ProductDto> GetProductsByShop(int sellerId)
+        public IEnumerable<ProductDetails> GetProductsByShop(int sellerId)
         {
-            var allProducts = _productRepository.Get(x=>x.SellerId==sellerId).ToList();
-            var allProductsDto = Mapper.Map<List<Product>, List<ProductDto>>(allProducts);
-            return allProductsDto;
+
+            var query = (
+                    from product in _productRepository.Get(x => x.SellerId == sellerId)
+                    from category in _categoryRepository.Get(x => x.Id == product.CategoryId)
+                    orderby product.Rating descending
+
+                    select new ProductDetails
+                    {
+                        Id = product.Id,
+                        Name = product.Name,
+                        Description = product.Description,
+                        ShortDescription = product.ShortDescription,
+                        Image = product.Image,
+                        Quantity = product.Quantity,
+                        Like = product.Like,
+                        Rating = product.Rating,
+                        UnitPrice = product.UnitPrice,
+                        Discount = product.Discount,
+                        Category = category.CategoryName,
+                        SellingPrice = product.UnitPrice * ((1 - product.Discount / 100))
+                    }).ToArray();
+
+            return query;
         }
 
         //GetProductsBySearchResult
@@ -101,7 +124,7 @@ namespace webapi.Services
                         Rating = product.Rating,
                         UnitPrice = product.UnitPrice,
                         Discount = product.Discount,
-                        shopDetails = shop,
+                        ShopDetails = shop,
                         SellingPrice = product.UnitPrice * ((1 - product.Discount / 100))
                     }).ToArray();
 
@@ -130,7 +153,7 @@ namespace webapi.Services
                            Rating=product.Rating,
                            UnitPrice=product.UnitPrice,
                            Discount=product.Discount,
-                           shopDetails=shop,
+                           ShopDetails=shop,
                            SellingPrice = product.UnitPrice * ((1 - product.Discount / 100))
                        }).ToArray();
 
@@ -157,7 +180,7 @@ namespace webapi.Services
                            Rating = product.Rating,
                            UnitPrice = product.UnitPrice,
                            Discount = product.Discount,
-                           shopDetails = shop,
+                           ShopDetails = shop,
                            SellingPrice = product.UnitPrice * ((1 - product.Discount/100))
                        }).ToArray();
 

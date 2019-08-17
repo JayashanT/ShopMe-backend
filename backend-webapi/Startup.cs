@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using webapi.Dtos;
 using webapi.Entities;
 using webapi.Helpers;
+using webapi.Hub;
 using webapi.Repositories;
 using webapi.Services;
 using webapi.ViewModels;
@@ -76,7 +77,8 @@ namespace backend_webapi
             services.AddScoped<ICommonRepository<Payment>, CommonRepository<Payment>>();
             services.AddScoped<ICommonRepository<Location>, CommonRepository<Location>>();
             services.AddScoped<ICommonRepository<Login>, CommonRepository<Login>>();
-            
+            services.AddScoped<ICommonRepository<Category>, CommonRepository<Category>>();
+
 
             services.AddScoped<ISellerService, SellerService>();
             services.AddScoped<IProductService, ProductService>();
@@ -90,13 +92,13 @@ namespace backend_webapi
             {
                 options.AddPolicy("MyPolicy",
                 builder =>
-                    builder.WithOrigins("http://localhost:3000", "http://192.168.43.16:8081").AllowAnyMethod().AllowAnyHeader().AllowCredentials());//WithOrigins("http://192.168.43.15:3000")
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());//WithOrigins("http://192.168.43.15:3000")
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
             //services.AddAutoMapper();
-
+                
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("JWTSettings");
@@ -187,37 +189,6 @@ namespace backend_webapi
         }
     }
     
-    public class ConnectionHub : Hub
-    {
-        private IDelivererService _delivererService;
-        private ILocationService _LocationService;
-        private ICommonRepository<Location> _locationRepository;
-        private IOrderService _orderService;
-
-        public ConnectionHub(IDelivererService delivererService, ICommonRepository<Location> locationRepository,
-                                ILocationService LocationService, IOrderService orderService)
-        {
-            _delivererService = delivererService;
-            _locationRepository = locationRepository;
-            _LocationService = LocationService;
-            _orderService = orderService;
-        }
-
-        public async Task GoOnline(LocationDto locationDto) 
-        {
-            string connectionId= Context.ConnectionId;
-            locationDto.ConnectionId = connectionId;
-            var location = _LocationService.UpdateDeliveryLocation(locationDto);
-            _delivererService.UpdateDeliveryStatus(locationDto.DelivererId, "online");
- 
-            await Clients.Client(connectionId).SendAsync("ReceiveMessage", "you are online" );
-        }
-
-        public async Task SendRequest(double shopLatitude, double shopLongitude)
-        {
-            var availableDelivery = _delivererService.GetDelivererNearByShop(shopLatitude, shopLongitude);
-            await Clients.Client(availableDelivery.ConnectionId).SendAsync("SendRequest", availableDelivery.delivererId);
-        }
-    }
+    
 }
 

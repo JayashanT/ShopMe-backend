@@ -12264,11 +12264,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Level2-project\\shopme-backend\\backend-webapi\\backend-webapi.csproj",
+      "projectUniqueName": "E:\\shopme-backend\\backend-webapi\\backend-webapi.csproj",
       "projectName": "backend-webapi",
-      "projectPath": "D:\\Level2-project\\shopme-backend\\backend-webapi\\backend-webapi.csproj",
+      "projectPath": "E:\\shopme-backend\\backend-webapi\\backend-webapi.csproj",
       "packagesPath": "C:\\Users\\Kumuthu\\.nuget\\packages\\",
-      "outputPath": "D:\\Level2-project\\shopme-backend\\backend-webapi\\obj\\",
+      "outputPath": "E:\\shopme-backend\\backend-webapi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

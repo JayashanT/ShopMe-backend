@@ -15,6 +15,7 @@ namespace webapi.Entities
         public string Image { get; set; }
         public double ShopLocationLatitude { get; set; }
         public double ShopLocationLongitude { get; set; }
+        public string ConnectionId { get; set; }
         public virtual List<Product> Products { get; set; }
     }
 }

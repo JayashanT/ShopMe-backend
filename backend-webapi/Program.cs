@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -19,8 +20,15 @@ namespace backend_webapi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
-                .UseUrls("http://192.168.43.16:5001")  ////"https://192.168.43.15:5001"
+                //.UseKestrel()
+                .UseStartup<Startup>()
+                .UseKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Any, 5001);
+                        options.Limits.MaxRequestBodySize = null;
+                    }
+                )
+                .UseUrls("http://192.168.43.15:5001")  ////"https://192.168.43.15:5001"
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>();

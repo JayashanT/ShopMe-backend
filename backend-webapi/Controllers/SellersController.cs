@@ -70,5 +70,14 @@ namespace webapi.Controllers
             var shop = _sellerService.GetShopsNearByLocation(latValue, lngValue);
             return Ok(shop);
         }
+
+        [HttpGet]
+        [Route("updateSellerConnectionId/{id},{connectionId}")]
+        public IActionResult UpdateSellerConnectionId(int id, string connectionId)
+        {
+
+            var result = _sellerService.UpdateSellerConnectionId(id, connectionId);
+            return Ok(result);
+        }
     }
 }

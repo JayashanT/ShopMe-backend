@@ -26,3 +26,17 @@ D:\Level2-project\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-
 D:\Level2-project\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.dll
 D:\Level2-project\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.pdb
 D:\Level2-project\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.RazorTargetAssemblyInfo.cache
+E:\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.deps.json
+E:\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.runtimeconfig.json
+E:\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.runtimeconfig.dev.json
+E:\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.dll
+E:\shopme-backend\backend-webapi\bin\Debug\netcoreapp2.2\backend-webapi.pdb
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.csprojAssemblyReference.cache
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.csproj.CoreCompileInputs.cache
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cache
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cs
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.AssemblyInfoInputs.cache
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.AssemblyInfo.cs
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.RazorTargetAssemblyInfo.cache
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.dll
+E:\shopme-backend\backend-webapi\obj\Debug\netcoreapp2.2\backend-webapi.pdb
