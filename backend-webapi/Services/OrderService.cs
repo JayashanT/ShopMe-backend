@@ -23,8 +23,9 @@ namespace webapi.Services
         private ICommonRepository<OrderItemProduct> _orderItemProductRepository;
         private ICommonRepository<Seller> _sellerRepository;
         private IProductService _productService;
+        private ICommonRepository<Payment> _paymentRepository;
 
-        public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository, ICommonRepository<Seller> sellerRepository,
+        public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository, ICommonRepository<Seller> sellerRepository, ICommonRepository<Payment> paymentRepository,
                             ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository, IProductService productService)
         {
             _orderItemRepository = orderItemRepository;
@@ -33,6 +34,7 @@ namespace webapi.Services
             _orderItemProductRepository = orderItemProductRepository;
             _productService = productService;
             _sellerRepository = sellerRepository;
+            _paymentRepository = paymentRepository;
         }
 
         //GetOrderById
@@ -51,21 +53,27 @@ namespace webapi.Services
         }
 
         //GetAllOrderDetailsByCustomer
-        public Object GetAllOrderDetailsByCustomer(int customerId)
+        public List<OrderDetails> GetAllOrderDetailsByCustomer(int customerId)
         {
-            var query = (
-                        from o in _orderRepository.Get(o=>o.CustomerId==customerId) 
+            var orderDetails = new List<OrderDetails>();
+            var orders = _orderRepository.Get(o => o.CustomerId == customerId);
 
-                        from oi in _orderItemRepository.Get(oi=>oi.OrderId==o.Id)
+            foreach (var order in orders)
+            {
+                var payment = _paymentRepository.Get(x => x.OrderId == order.Id).FirstOrDefault();
+                var productDeatails = GetProductsByOrder(order);
+                var orderItems = new OrderDetails()
+                {
+                    Id = order.Id,
+                    CreatedAt = payment.PaymentDate,
+                    Products = productDeatails,
+                    OrderStatus = order.Status,
+                    TotalPrice = payment.Price,
+                };
 
-                        from oip in _orderItemProductRepository.Get(oip=>oip.OrderItemId==oi.Id)
-
-                        from p in _productRepository.Get(p=>p.Id==oip.ProductId)
-
-                        orderby oi.OrderId 
-                        select new { o.CreatedAt, p.Description, oi.Quantity }
-                        );
-            return query;
+                orderDetails.Add(orderItems);
+            }
+            return orderDetails;
         }
 
         //GetWaitingOrderDetailsBySeller
@@ -80,6 +88,7 @@ namespace webapi.Services
                 var orderItems = new OrderDetails()
                 {
                     Id = order.Id,
+                    OrderStatus=order.Status,
                     Products = productDeatails
                 };
 
