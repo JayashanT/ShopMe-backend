@@ -143,7 +143,7 @@ namespace backend_webapi
                 app.UseHsts();
             }
 
-
+            app.UseDefaultFiles();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

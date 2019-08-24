@@ -1,0 +1,14 @@
+G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.deps.json
+G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.runtimeconfig.json
+G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.runtimeconfig.dev.json
+G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.dll
+G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.pdb
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csprojAssemblyReference.cache
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csproj.CoreCompileInputs.cache
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cache
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cs
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.AssemblyInfoInputs.cache
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.AssemblyInfo.cs
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.RazorTargetAssemblyInfo.cache
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.dll
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.pdb
