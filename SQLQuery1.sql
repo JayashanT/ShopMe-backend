@@ -1,8 +1,7 @@
-select * from Customers
+/*select * from Customers
 select * from Products
 select * from Categories
 select * from Locations
-select * from Sellers
 select * from Deliverers
 select * from Login
 select * from Orders
@@ -30,4 +29,4 @@ select * from Payments
 //update Orders set Status='to be confirmed' where Id=4   'to be delivered'
 //delete from Products where Id=3
 //update Deliverers set DeliveryStatus='offline' where Id=1
-//update Categories set CategoryName='electronic' where Id=1
+//update Categories set CategoryName='electronic' where Id=1*/

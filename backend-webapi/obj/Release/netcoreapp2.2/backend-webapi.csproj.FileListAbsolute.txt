@@ -17,7 +17,6 @@ D:\L2Project\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-web
 D:\L2Project\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.runtimeconfig.dev.json
 D:\L2Project\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.dll
 D:\L2Project\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.pdb
-D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csprojAssemblyReference.cache
 D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csproj.CoreCompileInputs.cache
 D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cache
 D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cs

@@ -28,11 +28,12 @@ namespace webapi.Services
         private readonly ICommonRepository<Deliverer> _delivererRepository;
         private readonly ICommonRepository<Admin> _adminRepository;
         private readonly ICommonRepository<Login> _loginRepository;
+        private readonly ICommonRepository<Location> _locationRepository;
         private string key = "1234567890-abcde";
 
         public UserService(IOptions<AppSettings> jwtSettings, ICommonRepository<Customer> customerRepository,
             ICommonRepository<Seller> sellerRepository,ICommonRepository<Deliverer> delivererRepository
-            ,ICommonRepository<Admin> adminRepository, ICommonRepository<Login> loginRepository)
+            ,ICommonRepository<Admin> adminRepository, ICommonRepository<Login> loginRepository, ICommonRepository<Location> locationRepository)
         {
             _jwtSettings = jwtSettings.Value;
             _customerRepository = customerRepository;
@@ -40,6 +41,7 @@ namespace webapi.Services
             _delivererRepository = delivererRepository;
             _adminRepository = adminRepository;
             _loginRepository = loginRepository;
+            _locationRepository = locationRepository;
         }
         
         public Object SignIn(string email, string password)
@@ -283,9 +285,16 @@ namespace webapi.Services
                     Login loginId = _loginRepository.Get( x=> x.Email==login.Email).FirstOrDefault();
                     delivererDto.LoginId = loginId.Id;
 
-                    Deliverer toAdd = Mapper.Map<Deliverer>(delivererDto);
-                    _delivererRepository.Add(toAdd);
+                    Deliverer deliverer = Mapper.Map<Deliverer>(delivererDto);
+                    _delivererRepository.Add(deliverer);
                     _delivererRepository.Save();
+
+                    Location location = new Location()
+                    {
+                        DelivererId = deliverer.Id,
+                    };
+                    _locationRepository.Add(location);
+                    _locationRepository.Save();
 
                     delivererDto.Token = Authentication(delivererDto.Id, delivererDto.Token);
                     scope.Complete();
