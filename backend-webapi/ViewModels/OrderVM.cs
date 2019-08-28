@@ -11,6 +11,8 @@ namespace webapi.ViewModels
         public int CustomerId { get; set; }
         public int SellerId { get; set; }
         public string Status { get; set; }
+        public double CustomerLatitude { get; set; }
+        public double CustomerLongitude { get; set; }
         public List<ItemVM> Items { get; set; }
     }
 }

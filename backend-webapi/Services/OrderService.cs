@@ -24,9 +24,10 @@ namespace webapi.Services
         private ICommonRepository<Seller> _sellerRepository;
         private IProductService _productService;
         private ICommonRepository<Payment> _paymentRepository;
+        private ICommonRepository<Customer> _customerRepository;
 
         public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository, ICommonRepository<Seller> sellerRepository, ICommonRepository<Payment> paymentRepository,
-                            ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository, IProductService productService)
+                            ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository, IProductService productService, ICommonRepository<Customer> customerRepository)
         {
             _orderItemRepository = orderItemRepository;
             _orderRepository = orderRepository;
@@ -35,13 +36,28 @@ namespace webapi.Services
             _productService = productService;
             _sellerRepository = sellerRepository;
             _paymentRepository = paymentRepository;
+            _customerRepository = customerRepository;
         }
 
         //GetOrderById
-        public OrderDto GetOrderById(int customerId, int orderId)
+        public object GetOrderDetailsById(int orderId)
         {
-            var order = _orderRepository.Get(x => x.CustomerId == customerId && x.Id == orderId).SingleOrDefault();
-            return Mapper.Map<OrderDto>(order);
+            var order = _orderRepository.Get(x => x.Id == orderId).SingleOrDefault();
+            var products = GetProductsByOrder(order);
+            var sellerDetails = _sellerRepository.Get(order.SellerId);
+            var customerDetails = _customerRepository.Get(order.CustomerId);
+            return new
+            {
+                products,
+                sellerDetails.ShopName,
+                sellerDetails.ShopLocationLatitude,
+                sellerDetails.ShopLocationLongitude,
+                customerDetails.FirstName,
+                customerDetails.LastName,
+                order.CustomerLatitude,
+                order.CustomerLongitude
+
+            };
         }
 
         //GetAllOrdersByCustomer

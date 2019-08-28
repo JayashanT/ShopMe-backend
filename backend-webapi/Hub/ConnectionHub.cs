@@ -45,10 +45,10 @@ namespace webapi.Hub
             await Clients.Client(connectionId).SendAsync("SellerOnline", "updated connectionId");
         }
 
-        public async Task SendRequest(double shopLatitude, double shopLongitude)
+        public async Task SendRequest(double shopLatitude, double shopLongitude,int orderId)
         {
             var availableDelivery = _delivererService.GetDelivererNearByShop(shopLatitude, shopLongitude);
-            await Clients.Client(availableDelivery.ConnectionId).SendAsync("SendRequest", availableDelivery.delivererId);
+            await Clients.Client(availableDelivery.ConnectionId).SendAsync("SendRequest", orderId);
         }
 
         public async Task Reply(int sellerId, string message)

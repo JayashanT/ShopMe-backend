@@ -22,6 +22,14 @@ namespace webapi.Controllers
             _orderService = orderService;
         }
 
+        [HttpGet]
+        [Route("GetOrderDetailsById/{id?}")]
+        public IActionResult GetOrderDetailsById(int id)
+        {
+            var result = _orderService.GetOrderDetailsById(id);
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("getAllOrderDetailsByCustomer/{id?}")]
         public IActionResult GetAllOrderDetailsByCustomer(int id) //customerId
@@ -29,6 +37,7 @@ namespace webapi.Controllers
             var result = _orderService.GetAllOrderDetailsByCustomer(id);
             return Ok(result);
         }
+
         [HttpPost]
         [Route("getWaitingOrderDetailsBySeller/{id?}")]
         public IActionResult GetWaitingOrderDetailsBySeller(int id) 

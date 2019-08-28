@@ -171,6 +171,10 @@ namespace backend_webapi.Migrations
 
                     b.Property<int>("CustomerId");
 
+                    b.Property<double>("CustomerLatitude");
+
+                    b.Property<double>("CustomerLongitude");
+
                     b.Property<int>("SellerId");
 
                     b.Property<string>("Status");
