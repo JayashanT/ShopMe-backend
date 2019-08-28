@@ -92,7 +92,7 @@ namespace backend_webapi
             {
                 options.AddPolicy("MyPolicy",
                 builder =>
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());//WithOrigins("http://192.168.43.15:3000")
+                    builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials());//WithOrigins("http://192.168.43.15:3000")
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
