@@ -13,6 +13,6 @@ namespace webapi.ViewModels
         public string Status { get; set; }
         public double CustomerLatitude { get; set; }
         public double CustomerLongitude { get; set; }
-        public List<ItemVM> Items { get; set; }
+        public IEnumerable<ItemVM> Items { get; set; }
     }
 }

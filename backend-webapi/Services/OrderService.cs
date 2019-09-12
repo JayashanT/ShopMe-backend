@@ -165,7 +165,7 @@ namespace webapi.Services
         }
 
         //CreateNewOrder
-        public void CreateNewOrder(OrderVM orderVM)
+        public bool CreateNewOrder(OrderVM orderVM)
         {
             try
             {
@@ -174,7 +174,11 @@ namespace webapi.Services
                     OrderDto orderDto = new OrderDto()
                     {
                         CreatedAt = DateTime.Now,
-                        CustomerId = orderVM.CustomerId
+                        CustomerId = orderVM.CustomerId,
+                        CustomerLatitude=orderVM.CustomerLatitude,
+                        CustomerLongitude=orderVM.CustomerLongitude,
+                        SellerId=orderVM.SellerId,
+                        Status=orderVM.Status
                     };
 
                     Order orderToAdd = Mapper.Map<Order>(orderDto);
@@ -211,10 +215,12 @@ namespace webapi.Services
                     }
                     scope.Complete();
                 }
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(new Exception(ex.Message));
+                return false;
             }
         }
     }

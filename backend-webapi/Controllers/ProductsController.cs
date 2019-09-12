@@ -37,6 +37,13 @@ namespace webapi.Controllers
             return Ok(allProductsDto);
         }
 
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            bool result = _productService.DeleteProduct(id);
+            return Ok(result);
+        }
+
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetSingle(int id)

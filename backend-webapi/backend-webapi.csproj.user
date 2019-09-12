@@ -7,4 +7,7 @@
     <ActiveDebugProfile>backend_webapi</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>backend-webapi20190825122524 - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

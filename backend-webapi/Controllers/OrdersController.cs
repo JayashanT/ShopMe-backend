@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using webapi.Services;
 using webapi.ViewModels;
 
@@ -73,11 +74,17 @@ namespace webapi.Controllers
 
         [HttpPost]
         [Route("createNewOrder")]
-        public IActionResult CreateNewOrder() //orderVM
+        public IActionResult CreateNewOrder(OrderVM orderVM) //orderVM
         {
+            var x = orderVM;
+            /*
             var orderVM = new OrderVM()
             {
                 CustomerId = 2,
+                CustomerLatitude = 6.7,
+                CustomerLongitude=79,
+                SellerId=4,
+                Status="to be confirmed",
                 Items = new List<ItemVM>()
                 {
                     new ItemVM()
@@ -92,9 +99,8 @@ namespace webapi.Controllers
                     },
                 }
             };
-
-            _orderService.CreateNewOrder(orderVM);
-            return Ok(orderVM);
+            */
+            return Ok(_orderService.CreateNewOrder(orderVM));
         }
     }
 }
