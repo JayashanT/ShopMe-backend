@@ -57,9 +57,9 @@ namespace webapi.Controllers
 
         [HttpPost]
         [Route("payment")]
-        public IActionResult Payment() //orderId, price
+        public IActionResult Payment(int id, double price) //orderId, price
         {
-            var result = _paymentService.CreateNewPayment(1, 260000);
+            var result = _paymentService.CreateNewPayment(id, price);
             return Ok(result);
         }
 

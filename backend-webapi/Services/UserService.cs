@@ -232,7 +232,8 @@ namespace webapi.Services
                     ShopAddress = sellerVM.ShopAddress,
                     ShopName = sellerVM.ShopName,
                     ShopLocationLatitude = sellerVM.ShopLocationLatitude,
-                    ShopLocationLongitude = sellerVM.ShopLocationLongitude
+                    ShopLocationLongitude = sellerVM.ShopLocationLongitude,
+                    Image = sellerVM.Image
                 };
                 using (TransactionScope scope = new TransactionScope())
                 {
