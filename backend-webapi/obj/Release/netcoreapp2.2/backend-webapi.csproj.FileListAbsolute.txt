@@ -3,7 +3,6 @@ G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.runtim
 G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.runtimeconfig.dev.json
 G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.dll
 G:\shopme-backend\backend-webapi\bin\Release\netcoreapp2.2\backend-webapi.pdb
-G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csprojAssemblyReference.cache
 G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csproj.CoreCompileInputs.cache
 G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cache
 G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.RazorAssemblyInfo.cs
