@@ -25,3 +25,4 @@ D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-web
 D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.dll
 D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.pdb
 D:\L2Project\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csprojAssemblyReference.cache
+G:\shopme-backend\backend-webapi\obj\Release\netcoreapp2.2\backend-webapi.csprojAssemblyReference.cache
