@@ -14,12 +14,11 @@ namespace webapi.Controllers
     [ApiController]
     public class OrdersController : Controller
     {
-        private IPaymentService _paymentService;
         private IOrderService _orderService;
 
-        public OrdersController(IPaymentService paymentService, IOrderService orderService)
+        public OrdersController(IOrderService orderService)
         {
-            _paymentService = paymentService;
+            
             _orderService = orderService;
         }
 
@@ -54,33 +53,15 @@ namespace webapi.Controllers
             _orderService.UpdateOrderStatus(id, status);
             return Ok();
         }
-
-        [HttpPost]
-        [Route("payment")]
-        public IActionResult Payment(int id, double price) //orderId, price
-        {
-            var result = _paymentService.CreateNewPayment(id, price);
-            return Ok(result);
-        }
-
-        [HttpPost]
-        [Route("calculateOrderPrice")]
-        public IActionResult CalculateOrderPrice() //cutomerId, orderId
-        {
-            var amount = _paymentService.CalculateOrderPrice(2, 3);
-            return Ok(amount);
-        }
-
-
+        
         [HttpPost]
         [Route("createNewOrder")]
         public IActionResult CreateNewOrder(OrderVM orderVM) //orderVM
         {
-            var x = orderVM;
             /*
             var orderVM = new OrderVM()
             {
-                CustomerId = 2,
+                CustomerId = 1,
                 CustomerLatitude = 6.7,
                 CustomerLongitude=79,
                 SellerId=4,
@@ -89,7 +70,7 @@ namespace webapi.Controllers
                 {
                     new ItemVM()
                     {
-                        ProductId=6,
+                        ProductId=5,
                         Quantity=5
                     },
                     new ItemVM()

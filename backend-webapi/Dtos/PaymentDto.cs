@@ -11,5 +11,6 @@ namespace webapi.Dtos
         public double Price { get; set; }
         public DateTime PaymentDate { get; set; }
         public int OrderId { get; set; }
+        public int Status { get; set; }
     }
 }

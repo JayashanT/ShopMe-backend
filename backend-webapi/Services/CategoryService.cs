@@ -20,7 +20,7 @@ namespace webapi.Services
 
         public IEnumerable<CategoryDto> GetAllCategories()
         {
-            var allCategories = _categoryRepository.GetAll().ToList();
+            var allCategories = _categoryRepository.GetAll().OrderBy(x => x.CategoryName).ToList();
             var allCategorysDetails = allCategories.Select(x => Mapper.Map<CategoryDto>(x));
             return allCategorysDetails;
         }

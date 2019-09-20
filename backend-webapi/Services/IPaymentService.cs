@@ -6,5 +6,6 @@ namespace webapi.Services
     {
         double CalculateOrderPrice(int customerId, int orderId);
         PaymentDto CreateNewPayment(int orderId, double price);
+        bool UpdatePayment(int id, int status);
     }
 }  

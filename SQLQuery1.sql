@@ -46,3 +46,13 @@ delete Orders where Id=20
 delete Orders where Id=21
 delete Orders where Id=22
 insert into Payments values (1000, GetDate(), 4)
+
+select * from orders
+
+select * from Orders
+select * from OrderItems
+select * from OrderItemProductsz
+insert into Payments values (5000, GetDate(), 6)
+select * from payments
+delete Payments where OrderId=4
+update Orders set SellerId=1 where Id=5

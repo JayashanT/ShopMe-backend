@@ -44,13 +44,13 @@ namespace webapi.Services
                          from p in _productRepository.GetAll()
                          where oip.ProductId==p.Id
                         
-                         select new { UnitPrice=p.UnitPrice, Quantity=oi.Quantity }
+                         select new { UnitPrice=p.UnitPrice, Quantity=oi.Quantity, Discount=p.Discount }
                       );
 
             var totalPrice=0.0;
             foreach (var q in query)
             {
-                totalPrice += q.UnitPrice*q.Quantity;
+                totalPrice +=  (1 - q.Discount/100)*q.UnitPrice* q.Quantity;
             }
 
             return totalPrice;
@@ -62,13 +62,25 @@ namespace webapi.Services
             {
                 OrderId = orderId,
                 Price = price,
-                PaymentDate = DateTime.Now
+                PaymentDate = DateTime.Now,
+                Status=0
             };
 
             Payment toAdd = Mapper.Map<Payment>(paymentDto);
             _paymentRepository.Add(toAdd);
             bool result = _paymentRepository.Save();
             return result ? Mapper.Map<PaymentDto>(toAdd) :  null;
+        }
+
+        public bool UpdatePayment(int orderId, int status)
+        {
+            Payment payment = _paymentRepository.Get(x => x.OrderId == orderId).FirstOrDefault();
+
+            payment.PaymentDate = DateTime.Now;
+            payment.Status = status;
+
+            _paymentRepository.Update(payment);
+            return _paymentRepository.Save();
         }
     }
 }

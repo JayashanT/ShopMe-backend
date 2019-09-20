@@ -11,6 +11,7 @@ namespace webapi.Entities
         public int Id { get; set; }
         public double Price { get; set; }
         public System.DateTime PaymentDate { get; set; }
+        public int Status { get; set; }
 
         public int OrderId { get; set; }
         [ForeignKey("OrderId")]

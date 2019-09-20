@@ -25,9 +25,10 @@ namespace webapi.Services
         private IProductService _productService;
         private ICommonRepository<Payment> _paymentRepository;
         private ICommonRepository<Customer> _customerRepository;
+        private IPaymentService _paymentService;
 
         public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository, ICommonRepository<Seller> sellerRepository, ICommonRepository<Payment> paymentRepository,
-                            ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository, IProductService productService, ICommonRepository<Customer> customerRepository)
+                            ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository, IProductService productService, ICommonRepository<Customer> customerRepository, IPaymentService paymentService)
         {
             _orderItemRepository = orderItemRepository;
             _orderRepository = orderRepository;
@@ -37,6 +38,7 @@ namespace webapi.Services
             _sellerRepository = sellerRepository;
             _paymentRepository = paymentRepository;
             _customerRepository = customerRepository;
+            _paymentService = paymentService;
         }
 
         //GetOrderById
@@ -72,8 +74,7 @@ namespace webapi.Services
         public List<OrderDetails> GetAllOrderDetailsByCustomer(int customerId)
         {
             var orderDetails = new List<OrderDetails>();
-            var orders = _orderRepository.Get(o => o.CustomerId == customerId);
-
+            var orders = _orderRepository.Get(o => o.CustomerId == customerId).OrderByDescending(o=>o.CreatedAt);
             foreach (var order in orders)
             {
                 var payment = _paymentRepository.Get(x => x.OrderId == order.Id).FirstOrDefault();
@@ -96,7 +97,7 @@ namespace webapi.Services
         public List<OrderDetails> GetWaitingOrderDetailsBySeller(int sellerId)
         {
             var orderDetails = new List<OrderDetails>(); 
-            var orders = _orderRepository.Get(o => o.SellerId == sellerId && o.Status == "to be confirmed");
+            var orders = _orderRepository.Get(o => o.SellerId == sellerId && o.Status == "to be confirmed").OrderByDescending(o => o.CreatedAt);
             
             foreach (var order in orders)
             {
@@ -165,7 +166,7 @@ namespace webapi.Services
         }
 
         //CreateNewOrder
-        public bool CreateNewOrder(OrderVM orderVM)
+        public OrderDto CreateNewOrder(OrderVM orderVM)
         {
             try
             {
@@ -213,14 +214,19 @@ namespace webapi.Services
                         //reduce Quantity in Product table
                         _productService.ReduceProductQuentity(orderItem.ProductId, orderItem.Quantity);
                     }
+
+                    //payment table create
+                    double price = _paymentService.CalculateOrderPrice(orderToAdd.CustomerId, orderToAdd.Id);
+                    _paymentService.CreateNewPayment(orderToAdd.Id, price);
+
                     scope.Complete();
+                    return Mapper.Map<OrderDto>(orderToAdd);
                 }
-                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(new Exception(ex.Message));
-                return false;
+                return null;
             }
         }
     }
