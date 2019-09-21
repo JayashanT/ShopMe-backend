@@ -20,9 +20,9 @@ namespace webapi.Controllers
 
         [HttpPost]
         [Route("update")]
-        public IActionResult UpdatePayment(int order_id, int status_message)
+        public IActionResult UpdatePayment(int order_id, int status_code)
         {
-            var result = _paymentService.UpdatePayment(order_id, status_message);
+            var result = _paymentService.UpdatePayment(order_id, status_code);
             return Ok(result);
         }
     }
