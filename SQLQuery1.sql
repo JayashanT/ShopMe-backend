@@ -51,7 +51,7 @@ select * from orders
 
 select * from Orders
 select * from OrderItems
-select * from OrderItemProductsz
+select * from OrderItemProducts
 insert into Payments values (5000, GetDate(), 6)
 select * from payments
 delete Payments where OrderId=4
