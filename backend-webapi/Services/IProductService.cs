@@ -15,6 +15,7 @@ namespace webapi.Services
         //IEnumerable<ProductDetails> GetProductsBySearchResult(string s, double Latitude, double Longitude);
         IEnumerable<ProductDetails> GetProductsByShop(int sellerId);
         void ReduceProductQuentity(int id, int Quantity);
+        void IncrementProductQuentity(int id, int Quantity);
         bool UpdateProduct(ProductDto productDto);
     }
 }

@@ -28,7 +28,7 @@ namespace backend_webapi.Migrations
                 column: "ProductId",
                 principalTable: "OrderItems",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.NoAction);
         }
     }
 }

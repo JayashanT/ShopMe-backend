@@ -83,5 +83,12 @@ namespace webapi.Controllers
             */
             return Ok(_orderService.CreateNewOrder(orderVM));
         }
+
+        [HttpPost]
+        [Route("deleteOrder/{id?}")]
+        public IActionResult DeleteOrder(int id) 
+        {
+            return Ok(_orderService.DeleteOrder(id));
+        }
     }
 }

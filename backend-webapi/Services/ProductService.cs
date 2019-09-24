@@ -198,6 +198,15 @@ namespace webapi.Services
             }
         }
 
+        //IncrementProductQuentity
+        public void IncrementProductQuentity(int id, int Quantity)
+        {
+            Product product = _productRepository.Get(id);
+            product.Quantity += Quantity;
+            _productRepository.Update(product);
+            _productRepository.Save();
+        }
+
         //CreateNewProduct
         public bool CreateNewProduct(ProductDto productDto)
         {

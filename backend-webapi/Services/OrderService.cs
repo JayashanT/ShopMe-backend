@@ -229,5 +229,43 @@ namespace webapi.Services
                 return null;
             }
         }
+
+        //delete order 
+        public bool DeleteOrder(int orderId)
+        {
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    Order order = _orderRepository.Get(x => x.Id == orderId).FirstOrDefault();
+                    List<OrderItem> orderItems = _orderItemRepository.Get(x=>x.OrderId==order.Id).ToList();
+
+                    foreach (var orderItem in orderItems)
+                    {
+                        OrderItemProduct orderItemProduct = _orderItemProductRepository.Get(x => x.OrderItemId == orderItem.Id).FirstOrDefault();
+
+                        //increment Quantity in Product table
+                        _productService.IncrementProductQuentity(orderItemProduct.ProductId, orderItem.Quantity);
+                        _orderItemProductRepository.Remove(orderItemProduct);
+                        _orderItemProductRepository.Save();
+                        _orderItemRepository.Remove(orderItem);
+                        _orderItemRepository.Save();
+
+                    }
+                    _orderRepository.Remove(order);
+                    _orderRepository.Save();
+                    //Payment payment = _paymentRepository.Get(x=>x.OrderId==orderId).FirstOrDefault();
+                    //_paymentRepository.Remove(payment);
+                    //_paymentRepository.Save();
+                    scope.Complete();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(new Exception(ex.Message));
+                return false;
+            }
+        }
     }
 }

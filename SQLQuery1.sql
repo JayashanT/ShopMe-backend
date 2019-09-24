@@ -11,6 +11,12 @@ select * from Customers
 select * from Sellers
 select * from Payments
 
+delete OrderItemProducts where OrderItemId=31
+delete OrderItems where Id=31
+delete Orders where Id=48
+delete Payments where OrderId=45 and Price=150000
+
+
 insert into Login values ('Seller', 'wathsala@gmail.com', '1234')
 insert into Categories values('electronic', null)
 insert into Categories values('sport', null)
@@ -56,3 +62,4 @@ insert into Payments values (5000, GetDate(), 6)
 select * from payments
 delete Payments where OrderId=4
 update Orders set SellerId=1 where Id=5
+//backend-webapi20190825122524dbserver.database.windows.net

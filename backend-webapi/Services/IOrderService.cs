@@ -16,5 +16,6 @@ namespace webapi.Services
         List<ProductDto> GetProductsByOrder(Order order);
         List<OrderDetails> GetWaitingOrderDetailsBySeller(int sellerId);
         void UpdateOrderStatus(int id, string status);
+        bool DeleteOrder(int orderId);
     }
 }
