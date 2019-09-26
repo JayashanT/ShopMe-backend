@@ -123,6 +123,16 @@ namespace webapi.Services
             }
             return false;
         }
+
+        //RankShop
+        public void RankShop(int id, double rank)
+        {
+            var seller = _sellerRepository.Get(x => x.Id == id).FirstOrDefault();
+            double t = rank;
+            seller.Rating = (seller.Rating + rank)/2;
+            _sellerRepository.Update(seller);
+            _sellerRepository.Save();
+        }
     }
 }
 

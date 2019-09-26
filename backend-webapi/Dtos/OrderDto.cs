@@ -14,5 +14,6 @@ namespace webapi.Dtos
         public double CustomerLongitude { get; set; }
         public int SellerId { get; set; }
         public int CustomerId { get; set; }
+        public int  DelivererId { get; set; }
     }
 }

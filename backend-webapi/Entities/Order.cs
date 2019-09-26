@@ -10,6 +10,7 @@ namespace webapi.Entities
         public System.DateTime CreatedAt { get; set; }
         public int CustomerId { get; set; }
         public int SellerId { get; set; }
+        public int DelivererId { get; set; }
         public string Status { get; set; }
         public double CustomerLatitude { get; set; }
         public double CustomerLongitude { get; set; }
@@ -17,6 +18,8 @@ namespace webapi.Entities
         public virtual Customer Customer { get; set; }
         [ForeignKey("SellerId")]
         public virtual Seller Seller { get; set; }
+        [ForeignKey("DelivererId")]
+        public virtual Deliverer Deliverer { get; set; }
         public virtual List<OrderItem> OrderItems { get; set; }
     }
 }

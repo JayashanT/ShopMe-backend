@@ -93,6 +93,22 @@ namespace webapi.Services
             return orderDetails;
         }
 
+        /*
+        public List<OrderDetails> GetAllOrderDetailsByDeliverer(int delivererId)
+        {
+            var orderDetails = new List<Object>();
+            var orders = _orderRepository.Get(o => o.DelivererId == delivererId).OrderByDescending(o => o.CreatedAt);
+            
+            foreach (var order in orders)
+            {
+                var seller = _sellerRepository.Get(x => x.Id == order.SellerId);
+                var customer = _customerRepository.Get(x=>x.Id==order.CustomerId);
+                
+            }
+            return orderDetails;
+        }
+        */
+
         //GetWaitingOrderDetailsBySeller
         public List<OrderDetails> GetWaitingOrderDetailsBySeller(int sellerId)
         {
@@ -179,7 +195,7 @@ namespace webapi.Services
                         CustomerLatitude=orderVM.CustomerLatitude,
                         CustomerLongitude=orderVM.CustomerLongitude,
                         SellerId=orderVM.SellerId,
-                        Status=orderVM.Status
+                        Status=orderVM.Status,
                     };
 
                     Order orderToAdd = Mapper.Map<Order>(orderDto);

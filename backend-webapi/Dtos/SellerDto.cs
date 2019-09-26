@@ -21,5 +21,6 @@ namespace webapi.Dtos
         public double ShopLocationLongitude { get; set; }
         public string ConnectionId { get; set; }
         public int LoginId { get; set; }
+        public double Rating { get; set; }
     }
 }

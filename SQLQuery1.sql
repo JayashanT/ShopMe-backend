@@ -11,9 +11,10 @@ select * from Customers
 select * from Sellers
 select * from Payments
 
-delete OrderItemProducts where OrderItemId=31
-delete OrderItems where Id=31
-delete Orders where Id=48
+
+delete from OrderItemProducts where OrderItemId=31
+delete from OrderItems where Id=31
+delete  from  Orders where Id=48
 delete Payments where OrderId=45 and Price=150000
 
 
@@ -43,15 +44,14 @@ insert into Customers values ('ku', 'wathsala',null,'12345678',null,3)
 update Login set Role='Customer' where Id=3*/
 update Orders set CustomerLatitude=6.7991, CustomerLongitude=79.8889 where Id=3
 update Orders set Status='to be confirmed' where Id=3
-update Orders set Status='to be confirmed' where Id=4
-
+update Orders set DelivererId=1 where Id=67
 update OrderItemProducts set OrderItemId=5 where Id=5
 delete Orders where Id=18
 delete Orders where Id=19
 delete Orders where Id=20
 delete Orders where Id=21
 delete Orders where Id=22
-insert into Payments values (1000, GetDate(), 4)
+insert into Payments values (1000, GetDate(), 54)
 
 select * from orders
 

@@ -175,6 +175,8 @@ namespace backend_webapi.Migrations
 
                     b.Property<double>("CustomerLongitude");
 
+                    b.Property<int>("DelivererId");
+
                     b.Property<int>("SellerId");
 
                     b.Property<string>("Status");
@@ -182,6 +184,8 @@ namespace backend_webapi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("DelivererId");
 
                     b.HasIndex("SellerId");
 
@@ -310,6 +314,8 @@ namespace backend_webapi.Migrations
 
                     b.Property<string>("ProfileImage");
 
+                    b.Property<double>("Rating");
+
                     b.Property<string>("ShopAddress");
 
                     b.Property<double>("ShopLocationLatitude");
@@ -365,6 +371,11 @@ namespace backend_webapi.Migrations
                     b.HasOne("webapi.Entities.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("webapi.Entities.Deliverer", "Deliverer")
+                        .WithMany()
+                        .HasForeignKey("DelivererId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("webapi.Entities.Seller", "Seller")

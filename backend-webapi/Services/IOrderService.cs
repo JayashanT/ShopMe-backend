@@ -11,6 +11,7 @@ namespace webapi.Services
         OrderDto CreateNewOrder(OrderVM orderVM);
         List<OrderDetails> GetAllOrderDetailsByCustomer(int customerId);
         IEnumerable<OrderDto> GetAllOrdersByCustomer(int customerId);
+        // List<OrderDetails> GetAllOrderDetailsByDeliverer(int delivererId);
         object GetOrderDetailsById(int orderId);
         object GetOrdersNearByDeliverers(double latitude, double longitude);
         List<ProductDto> GetProductsByOrder(Order order);

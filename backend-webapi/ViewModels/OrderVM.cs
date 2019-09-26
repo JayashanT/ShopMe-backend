@@ -10,6 +10,7 @@ namespace webapi.ViewModels
     {
         public int CustomerId { get; set; }
         public int SellerId { get; set; }
+        public int  DelivererId { get; set; }
         public string Status { get; set; }
         public double CustomerLatitude { get; set; }
         public double CustomerLongitude { get; set; }
