@@ -18,5 +18,6 @@ namespace webapi.Services
         List<OrderDetails> GetWaitingOrderDetailsBySeller(int sellerId);
         void UpdateOrderStatus(int id, string status);
         bool DeleteOrder(int orderId);
+        void Rate(int id, double sellerRate, double delivererRate);
     }
 }

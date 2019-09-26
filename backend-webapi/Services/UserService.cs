@@ -233,7 +233,8 @@ namespace webapi.Services
                     ShopName = sellerVM.ShopName,
                     ShopLocationLatitude = sellerVM.ShopLocationLatitude,
                     ShopLocationLongitude = sellerVM.ShopLocationLongitude,
-                    Image = sellerVM.Image
+                    Image = sellerVM.Image,
+                    Rating = 0.0
                 };
                 using (TransactionScope scope = new TransactionScope())
                 {
@@ -274,6 +275,7 @@ namespace webapi.Services
                     NIC = delivererVM.NIC,
                     VehicleNo=delivererVM.VehicleNo,
                     VehicleType=delivererVM.VehicleType,
+                    Rating=0.0
                 };
 
                 using (TransactionScope scope = new TransactionScope())

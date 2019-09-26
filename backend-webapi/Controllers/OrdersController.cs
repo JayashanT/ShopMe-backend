@@ -61,7 +61,15 @@ namespace webapi.Controllers
             _orderService.UpdateOrderStatus(id, status);
             return Ok();
         }
-        
+
+        [HttpPost]
+        [Route("rate/{id},{rate}")]
+        public IActionResult RateShop(int id, double sellerRate, double delivererRate)
+        {
+            _orderService.Rate(id, sellerRate, delivererRate);
+            return Ok();
+        }
+
         [HttpPost]
         [Route("createNewOrder")]
         public IActionResult CreateNewOrder(OrderVM orderVM) //orderVM

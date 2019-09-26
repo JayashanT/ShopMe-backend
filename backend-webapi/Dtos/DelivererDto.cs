@@ -17,7 +17,9 @@ namespace webapi.Dtos
         public string VehicleNo { get; set; }
         public string DeliveryStatus { get; set; }
         public string NIC { get; set; }
+        public double Rating { get; set; }
         public int LocationId { get; set; }
         public int LoginId { get; set; }
+
     }
 }

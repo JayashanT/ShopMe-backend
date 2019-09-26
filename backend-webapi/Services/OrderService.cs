@@ -26,8 +26,9 @@ namespace webapi.Services
         private ICommonRepository<Payment> _paymentRepository;
         private ICommonRepository<Customer> _customerRepository;
         private IPaymentService _paymentService;
+        private ICommonRepository<Deliverer> _delivererRepository;
 
-        public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository, ICommonRepository<Seller> sellerRepository, ICommonRepository<Payment> paymentRepository,
+        public OrderService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository, ICommonRepository<Seller> sellerRepository, ICommonRepository<Payment> paymentRepository, ICommonRepository<Deliverer> delivererRepository,
                             ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository, IProductService productService, ICommonRepository<Customer> customerRepository, IPaymentService paymentService)
         {
             _orderItemRepository = orderItemRepository;
@@ -39,6 +40,7 @@ namespace webapi.Services
             _paymentRepository = paymentRepository;
             _customerRepository = customerRepository;
             _paymentService = paymentService;
+            _delivererRepository = delivererRepository;
         }
 
         //GetOrderById
@@ -170,6 +172,21 @@ namespace webapi.Services
             return query;
         }
 
+        //Rate
+        public void Rate(int id, double sellerRate, double delivererRate)
+        {
+            var order = _orderRepository.Get(x => x.Id == id).FirstOrDefault();
+            var seller = _sellerRepository.Get(x => x.Id == order.SellerId).FirstOrDefault();
+            var deliverer = _delivererRepository.Get(x => x.Id == order.DelivererId).FirstOrDefault();
+
+            deliverer.Rating = (deliverer.Rating + delivererRate) / 2;
+            _delivererRepository.Update(deliverer);
+            _delivererRepository.Save();
+
+            seller.Rating = (seller.Rating + sellerRate) / 2;
+            _sellerRepository.Update(seller);
+            _sellerRepository.Save();
+        }
 
         //UpdateOrderStatus
         public void UpdateOrderStatus(int id, string status)

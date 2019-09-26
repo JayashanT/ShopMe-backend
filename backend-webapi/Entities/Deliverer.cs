@@ -13,6 +13,7 @@ namespace webapi.Entities
         public string VehicleNo { get; set; }
         public string DeliveryStatus { get; set; }
         public string NIC { get; set; }
+        public double Rating { get; set; }
         public virtual Location Location { get; set; }
     }
 }
