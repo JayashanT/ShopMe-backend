@@ -63,7 +63,7 @@ namespace webapi.Controllers
         }
 
         [HttpPost]
-        [Route("rate/{id},{rate}")]
+        [Route("rate/{id},{sellerRate},{delivererRate}")]
         public IActionResult RateShop(int id, double sellerRate, double delivererRate)
         {
             _orderService.Rate(id, sellerRate, delivererRate);
