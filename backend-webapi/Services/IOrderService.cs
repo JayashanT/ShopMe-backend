@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using backend_webapi.Dtos;
 using webapi.Dtos;
 using webapi.Entities;
 using webapi.ViewModels;
@@ -19,5 +18,6 @@ namespace webapi.Services
         void UpdateOrderStatus(int id, string status);
         bool DeleteOrder(int orderId);
         void Rate(int id, double sellerRate, double delivererRate);
+        List<OrderDeliveryDetails> GetAllOrderDetailsByDeliverer(int delivererId);
     }
 }

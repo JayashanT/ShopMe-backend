@@ -11,7 +11,6 @@ using webapi.Repositories;
 using webapi.ViewModels;
 using webapi.Services;
 using GeoCoordinatePortable;
-using backend_webapi.Dtos;
 
 namespace webapi.Services
 {
@@ -95,21 +94,27 @@ namespace webapi.Services
             return orderDetails;
         }
 
-        /*
-        public List<OrderDetails> GetAllOrderDetailsByDeliverer(int delivererId)
+        
+        public List<OrderDeliveryDetails> GetAllOrderDetailsByDeliverer(int delivererId)
         {
-            var orderDetails = new List<Object>();
-            var orders = _orderRepository.Get(o => o.DelivererId == delivererId).OrderByDescending(o => o.CreatedAt);
+            var orderDeliveryDetailsList = new List<OrderDeliveryDetails>();
+            var orders = _orderRepository.Get(o => o.DelivererId == delivererId  && o.Status=="confirm order recieved").OrderByDescending(o => o.CreatedAt);
             
             foreach (var order in orders)
             {
-                var seller = _sellerRepository.Get(x => x.Id == order.SellerId);
-                var customer = _customerRepository.Get(x=>x.Id==order.CustomerId);
-                
+                var seller = _sellerRepository.Get(x => x.Id == order.SellerId).FirstOrDefault();
+                var customer = _customerRepository.Get(x=>x.Id==order.CustomerId).FirstOrDefault();
+                seller.AccountNo = null;
+                seller.ConnectionId = null;
+                var orderDeliveryDetails = new OrderDeliveryDetails
+                {
+                    customer = customer,
+                    seller = seller
+                };
             }
-            return orderDetails;
+            return orderDeliveryDetailsList;
         }
-        */
+        
 
         //GetWaitingOrderDetailsBySeller
         public List<OrderDetails> GetWaitingOrderDetailsBySeller(int sellerId)
@@ -218,7 +223,7 @@ namespace webapi.Services
                     Order orderToAdd = Mapper.Map<Order>(orderDto);
                     _orderRepository.Add(orderToAdd);
                     bool orderResult = _orderRepository.Save();
-
+                    bool x = orderResult;
                     foreach (var orderItem in orderVM.Items)
                     {
 

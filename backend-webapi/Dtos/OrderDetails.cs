@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using webapi.Dtos;
 
-namespace backend_webapi.Dtos
+namespace webapi.Dtos
 {
     public class OrderDetails
     {

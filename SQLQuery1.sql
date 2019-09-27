@@ -8,8 +8,8 @@ select * from Orders
 select * from OrderItems
 select * from OrderItemProducts
 select * from Customers
-select * from Sellers
 select * from Payments
+select * from Sellers
 
 
 delete from OrderItemProducts where OrderItemId=31
@@ -44,9 +44,11 @@ insert into Customers values ('ku', 'wathsala',null,'12345678',null,3)
 update Login set Role='Customer' where Id=3*/
 update Orders set CustomerLatitude=6.7991, CustomerLongitude=79.8889 where Id=3
 update Orders set Status='to be confirmed' where Id=3
-update Orders set DelivererId=1 where Id=67
+update Orders set DelivererId=1 where Id=69
+update Deliverers set Rating=0 where Id=1
+update Deliverers set Rating=0 where Id=2
 update OrderItemProducts set OrderItemId=5 where Id=5
-delete Orders where Id=18
+delete Orders where Id=81
 delete Orders where Id=19
 delete Orders where Id=20
 delete Orders where Id=21
@@ -58,8 +60,14 @@ select * from orders
 select * from Orders
 select * from OrderItems
 select * from OrderItemProducts
-insert into Payments values (5000, GetDate(), 6)
+insert into Payments values (5000, GetDate(), 81)
 select * from payments
 delete Payments where OrderId=4
 update Orders set SellerId=1 where Id=5
 //backend-webapi20190825122524dbserver.database.windows.net
+
+/*ALTER TABLE Sellers
+ADD Ranking VARCHAR (255);
+*/
+
+ALTER TABLE Orders DROP COLUMN DelivererId;

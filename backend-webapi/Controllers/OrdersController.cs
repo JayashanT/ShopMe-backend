@@ -45,7 +45,7 @@ namespace webapi.Controllers
             var result = _orderService.GetWaitingOrderDetailsBySeller(id);
             return Ok(result);
         }
-        /*
+        
         [HttpPost]
         [Route("getAllOrderDetailsByDeliverer/{id?}")]
         public IActionResult getAllOrderDetailsByDeliverer(int id) 
@@ -53,7 +53,7 @@ namespace webapi.Controllers
             var result = _orderService.GetAllOrderDetailsByDeliverer(id);
             return Ok(result);
         }
-        */
+        
         [HttpGet]
         [Route("updateOrderStatus/{id},{status}")]
         public IActionResult UpdateOrderStatus(int id, string status)

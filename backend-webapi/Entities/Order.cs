@@ -18,8 +18,8 @@ namespace webapi.Entities
         public virtual Customer Customer { get; set; }
         [ForeignKey("SellerId")]
         public virtual Seller Seller { get; set; }
-        [ForeignKey("DelivererId")]
-        public virtual Deliverer Deliverer { get; set; }
+        //[ForeignKey("DelivererId")]
+        //public virtual Deliverer Deliverer { get; set; }
         public virtual List<OrderItem> OrderItems { get; set; }
     }
 }
