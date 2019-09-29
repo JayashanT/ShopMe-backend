@@ -12,6 +12,7 @@ namespace webapi.Dtos
         public DateTime CreatedAt { get; set; }
         public string OrderStatus { get; set; }
         public double TotalPrice { get; set; }
+        public string ShopName { get; set; }
         public List<ProductDto> Products { get; set; }
     }
 }

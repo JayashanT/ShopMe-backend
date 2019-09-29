@@ -58,8 +58,8 @@ namespace webapi.Services
                 customerDetails.FirstName,
                 customerDetails.LastName,
                 order.CustomerLatitude,
-                order.CustomerLongitude
-
+                order.CustomerLongitude,
+                order.DelivererId
             };
         }
 
@@ -79,6 +79,7 @@ namespace webapi.Services
             foreach (var order in orders)
             {
                 var payment = _paymentRepository.Get(x => x.OrderId == order.Id).FirstOrDefault();
+                var shop = _sellerRepository.Get(x => x.Id == order.SellerId).FirstOrDefault();
                 var productDeatails = GetProductsByOrder(order);
                 var orderItems = new OrderDetails()
                 {
@@ -87,6 +88,7 @@ namespace webapi.Services
                     Products = productDeatails,
                     OrderStatus = order.Status,
                     TotalPrice = payment.Price,
+                    ShopName = shop.ShopName       
                 };
 
                 orderDetails.Add(orderItems);
@@ -94,7 +96,7 @@ namespace webapi.Services
             return orderDetails;
         }
 
-        
+        //GetAllOrderDetailsByDeliverer
         public List<OrderDeliveryDetails> GetAllOrderDetailsByDeliverer(int delivererId)
         {
             var orderDeliveryDetailsList = new List<OrderDeliveryDetails>();
@@ -184,7 +186,7 @@ namespace webapi.Services
             var seller = _sellerRepository.Get(x => x.Id == order.SellerId).FirstOrDefault();
             var deliverer = _delivererRepository.Get(x => x.Id == order.DelivererId).FirstOrDefault();
 
-            deliverer.Rating = (deliverer.Rating + delivererRate) / 2;
+            deliverer.Rating = Math.Round((deliverer.Rating + delivererRate)/2, 1);
             _delivererRepository.Update(deliverer);
             _delivererRepository.Save();
 
