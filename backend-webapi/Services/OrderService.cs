@@ -100,7 +100,7 @@ namespace webapi.Services
         public List<OrderDeliveryDetails> GetAllOrderDetailsByDeliverer(int delivererId)
         {
             var orderDeliveryDetailsList = new List<OrderDeliveryDetails>();
-            var orders = _orderRepository.Get(o => o.DelivererId == delivererId  && o.Status=="confirm order recieved").OrderByDescending(o => o.CreatedAt);
+            var orders = _orderRepository.Get(o =>o.Status== "confirm order recieved" && o.DelivererId == delivererId).OrderByDescending(o => o.CreatedAt);
             
             foreach (var order in orders)
             {
@@ -113,6 +113,7 @@ namespace webapi.Services
                     customer = Mapper.Map<CustomerDto>(customer) ,
                     seller = Mapper.Map<SellerDto>(seller)
                 };
+                orderDeliveryDetailsList.Add(orderDeliveryDetails);
             }
             return orderDeliveryDetailsList;
         }
