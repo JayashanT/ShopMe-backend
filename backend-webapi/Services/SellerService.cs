@@ -41,7 +41,7 @@ namespace webapi.Services
                             ShopLocationLatitude=sellerShop.ShopLocationLatitude,
                             ShopLocationLongitude = sellerShop.ShopLocationLongitude,
                             ShopName = sellerShop.ShopName,
-                            
+                            Rating= sellerShop.Rating
                         }
                         ).ToList();
 

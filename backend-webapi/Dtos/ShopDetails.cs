@@ -18,5 +18,6 @@ namespace webapi.Dtos
         public double ShopLocationLatitude { get; set; }
         public double ShopLocationLongitude { get; set; }
         public double Distance { get; set; }
+        public double Rating { get; set; }
     }
 }
