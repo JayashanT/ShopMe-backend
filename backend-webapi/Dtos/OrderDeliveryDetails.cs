@@ -7,7 +7,8 @@ namespace webapi.Dtos
 {
     public class OrderDeliveryDetails
     {
-        public CustomerDto customer;
-        public SellerDto seller;
+        public CustomerDto Customer;
+        public SellerDto Seller;
+        public OrderDto Order;
     }
 }

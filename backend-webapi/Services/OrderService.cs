@@ -110,8 +110,9 @@ namespace webapi.Services
                 seller.ConnectionId = null;
                 var orderDeliveryDetails = new OrderDeliveryDetails
                 {
-                    customer = Mapper.Map<CustomerDto>(customer) ,
-                    seller = Mapper.Map<SellerDto>(seller)
+                    Order = Mapper.Map<OrderDto>(order),
+                    Customer = Mapper.Map<CustomerDto>(customer) ,
+                    Seller = Mapper.Map<SellerDto>(seller)
                 };
                 orderDeliveryDetailsList.Add(orderDeliveryDetails);
             }
