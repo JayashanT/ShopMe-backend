@@ -62,6 +62,14 @@ namespace webapi.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("orderCongirmed/{orderId},{delivererId}")]
+        public IActionResult UpdateOrderDeliverer(int orderId, int delivererId)
+        {
+            _orderService.UpdateOrderDeliverer(orderId, delivererId);
+            return Ok();
+        }
+
         [HttpPost]
         [Route("rate/{id},{sellerRate},{delivererRate}")]
         public IActionResult RateShop(int id, double sellerRate, double delivererRate)

@@ -207,6 +207,15 @@ namespace webapi.Services
             _orderRepository.Save();
         }
 
+        public void UpdateOrderDeliverer(int orderId, int delivererId)
+        {
+            var order = _orderRepository.Get(x => x.Id == orderId).First();
+            order.DelivererId = delivererId;
+            _orderRepository.Update(order);
+            _orderRepository.Update(order);
+            _orderRepository.Save();
+        }
+
         //CreateNewOrder
         public OrderDto CreateNewOrder(OrderVM orderVM)
         {
