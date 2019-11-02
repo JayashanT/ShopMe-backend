@@ -16,18 +16,19 @@ namespace webapi.Services
         private ICommonRepository<OrderItem> _orderItemRepository;
         private ICommonRepository<Product> _productRepository;
         private ICommonRepository<OrderItemProduct> _orderItemProductRepository;
-        private IOrderService _orderService;
+        //private IOrderService _orderService;
 
         public PaymentService(ICommonRepository<Order> orderRepository, ICommonRepository<OrderItem> orderItemRepository,
                               ICommonRepository<Product> productRepository, ICommonRepository<OrderItemProduct> orderItemProductRepository,
-                              ICommonRepository<Payment> paymentRepository, IOrderService orderService)
+                              ICommonRepository<Payment> paymentRepository //IOrderService orderService
+                              )
         {
             _orderItemRepository = orderItemRepository;
             _orderRepository = orderRepository;
             _productRepository = productRepository;
             _orderItemProductRepository = orderItemProductRepository;
             _paymentRepository = paymentRepository;
-            _orderService = orderService;
+           // _orderService = orderService;
         }
 
         public double CalculateOrderPrice(int customerId, int orderId)
@@ -87,7 +88,7 @@ namespace webapi.Services
             }
             else
             {
-                _orderService.DeleteOrder(orderId);
+                //_orderService.DeleteOrder(orderId);
                 return false;
             }
 
