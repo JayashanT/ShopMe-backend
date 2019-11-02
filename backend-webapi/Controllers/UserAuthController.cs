@@ -73,5 +73,26 @@ namespace webapi.Controllers
 
             return Ok(deliverer);
         }
+
+        [HttpPost("Update-Customer")]
+        public IActionResult UpdateCustomer([FromBody]CustomerVM customerVM)
+        {
+            var customer = _userService.SignUp(customerVM);
+            return Ok(customer);
+        }
+
+        [HttpPost("Update-Seller")]
+        public IActionResult UpdateSeller([FromBody]SellerVM sellerVM)
+        {
+            var seller = _userService.SignUp(sellerVM);
+            return Ok(seller);
+        }
+
+        [HttpPost("Update-Customer")]
+        public IActionResult UpdateDeliverer([FromBody]DelivererVM delivererVM)
+        {
+            var deliverer = _userService.SignUp(delivererVM);
+            return Ok(deliverer);
+        }
     }
 }

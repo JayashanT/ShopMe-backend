@@ -32,8 +32,8 @@ namespace webapi.Services
         private string key = "1234567890-abcde";
 
         public UserService(IOptions<AppSettings> jwtSettings, ICommonRepository<Customer> customerRepository,
-            ICommonRepository<Seller> sellerRepository,ICommonRepository<Deliverer> delivererRepository
-            ,ICommonRepository<Admin> adminRepository, ICommonRepository<Login> loginRepository, ICommonRepository<Location> locationRepository)
+            ICommonRepository<Seller> sellerRepository, ICommonRepository<Deliverer> delivererRepository
+            , ICommonRepository<Admin> adminRepository, ICommonRepository<Login> loginRepository, ICommonRepository<Location> locationRepository)
         {
             _jwtSettings = jwtSettings.Value;
             _customerRepository = customerRepository;
@@ -43,25 +43,25 @@ namespace webapi.Services
             _loginRepository = loginRepository;
             _locationRepository = locationRepository;
         }
-        
+
         public Object SignIn(string email, string password)
         {
             //retrive data from db
-            var user = (dynamic) null;
+            var user = (dynamic)null;
             var login = _loginRepository.Get(x => x.Email == email && Decrypt(x.Password, key) == password).FirstOrDefault();//Decrypt(x.Password, key)
             if (login == null)
                 return null;
             else if (login.Role == "Customer")
             {
                 var details = _customerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
-                if(details!=null)
+                if (details != null)
                     user = new
                     {
-                        Data=details,
-                        Role=login.Role,
+                        Data = details,
+                        Role = login.Role,
                     };
             }
-                
+
             else if (login.Role == "Deliverer")
             {
                 var details = _delivererRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
@@ -72,7 +72,7 @@ namespace webapi.Services
                         Role = login.Role
                     };
             }
-                
+
             else if (login.Role == "Seller")
             {
                 var details = _sellerRepository.Get(x => x.LoginId == login.Id).FirstOrDefault();
@@ -83,7 +83,7 @@ namespace webapi.Services
                         Role = login.Role
                     };
             }
-                
+
 
             // return null if user not found
             if (user == null)
@@ -108,7 +108,7 @@ namespace webapi.Services
                 new Claim(ClaimTypes.Name, id.ToString())
                 }),
                 //Expires = DateTime.UtcNow.AddDays(7),
-                Expires=DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -153,10 +153,10 @@ namespace webapi.Services
             var fullCipher = Convert.FromBase64String(password);
 
             var iv = new byte[16];
-            var cipher = new byte[fullCipher.Length - iv.Length]; 
+            var cipher = new byte[fullCipher.Length - iv.Length];
 
             Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length); 
+            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length);
             var key = Encoding.UTF8.GetBytes(keyString);
 
             using (var aesAlg = Aes.Create())
@@ -249,7 +249,7 @@ namespace webapi.Services
                     Seller toAdd = Mapper.Map<Seller>(sellerDto);
                     _sellerRepository.Add(toAdd);
                     _sellerRepository.Save();
-                    
+
                     sellerDto.Token = Authentication(sellerDto.Id, sellerDto.Token);
                     scope.Complete();
                 }
@@ -273,9 +273,9 @@ namespace webapi.Services
                     MobileNumber = delivererVM.MobileNumber,
                     ProfileImage = delivererVM.ProfileImage,
                     NIC = delivererVM.NIC,
-                    VehicleNo=delivererVM.VehicleNo,
-                    VehicleType=delivererVM.VehicleType,
-                    Rating=0.0
+                    VehicleNo = delivererVM.VehicleNo,
+                    VehicleType = delivererVM.VehicleType,
+                    Rating = 0.0
                 };
 
                 using (TransactionScope scope = new TransactionScope())
@@ -285,7 +285,7 @@ namespace webapi.Services
                     _loginRepository.Add(login);
                     _loginRepository.Save();
 
-                    Login loginId = _loginRepository.Get( x=> x.Email==login.Email).FirstOrDefault();
+                    Login loginId = _loginRepository.Get(x => x.Email == login.Email).FirstOrDefault();
                     delivererDto.LoginId = loginId.Id;
 
                     Deliverer deliverer = Mapper.Map<Deliverer>(delivererDto);
@@ -309,6 +309,70 @@ namespace webapi.Services
                 Console.WriteLine(new Exception(ex.Message));
             }
             return null;
+        }
+
+        public CustomerDto Update(CustomerVM customerVM)
+        {
+            Customer customer = _customerRepository.Get(x => x.Id == customerVM.Id).FirstOrDefault();
+
+            if (customer.FirstName != null)
+                customer.FirstName = customer.FirstName;
+            if (customer.LastName != null)
+                customer.LastName = customer.LastName;
+            if (customer.MobileNumber != null)
+                customer.MobileNumber = customer.MobileNumber;
+            if (customer.ProfileImage != null)
+                customer.ProfileImage = customer.ProfileImage;
+
+            _customerRepository.Update(customer);
+            _customerRepository.Save();
+            return Mapper.Map<CustomerDto>(customer);
+        }
+
+        public SellerDto Update(SellerVM sellerVM)
+        {
+            Seller seller = _sellerRepository.Get(x => x.Id == sellerVM.Id).FirstOrDefault();
+
+            if (seller.FirstName != null)
+                seller.FirstName = seller.FirstName;
+            if (seller.LastName != null)
+                seller.LastName = seller.LastName;
+            if (seller.MobileNumber != null)
+                seller.MobileNumber = seller.MobileNumber;
+            if (seller.AccountNo != null)
+                seller.AccountNo = seller.AccountNo;
+            if (seller.Image != null)
+                seller.Image = seller.Image;
+            if (seller.ProfileImage != null)
+                seller.ProfileImage = seller.ProfileImage;
+            if (seller.ShopName != null)
+                seller.ShopName = seller.ShopName;
+            if (seller.ShopAddress != null)
+                seller.ShopAddress = seller.ShopAddress;
+
+            _sellerRepository.Update(seller);
+            _sellerRepository.Save();
+            return Mapper.Map<SellerDto>(seller);
+        }
+
+        public DelivererDto Update(DelivererVM delivererVM)
+        {
+            Deliverer deliverer = _delivererRepository.Get(x => x.Id == delivererVM.Id).FirstOrDefault();
+
+            if (deliverer.FirstName != null)
+                deliverer.FirstName = deliverer.FirstName;
+            if (deliverer.LastName != null)
+                deliverer.LastName = deliverer.LastName;
+            if (deliverer.MobileNumber != null)
+                deliverer.MobileNumber = deliverer.MobileNumber;
+            if (deliverer.VehicleType != null)
+                deliverer.VehicleType = deliverer.VehicleType;
+            if (deliverer.VehicleNo != null)
+                deliverer.VehicleNo = deliverer.VehicleNo;
+
+            _delivererRepository.Update(deliverer);
+            _customerRepository.Save();
+            return Mapper.Map<DelivererDto>(deliverer);
         }
     }
 }

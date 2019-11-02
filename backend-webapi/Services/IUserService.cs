@@ -10,5 +10,8 @@ namespace webapi.Services
         CustomerDto SignUp(CustomerVM customerVM);
         DelivererDto SignUp(DelivererVM delivererVM);
         SellerDto SignUp(SellerVM sellerVM);
+        CustomerDto Update(CustomerVM customerVM);
+        SellerDto Update(SellerVM sellerVM);
+        DelivererDto Update(DelivererVM delivererVM);
     }
 }
